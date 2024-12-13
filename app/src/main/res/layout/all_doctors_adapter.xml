@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="10dp"
+    android:layout_marginHorizontal="1dp">
+    
+    <ImageView
+        android:id="@+id/profilePic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:contentDescription="@string/profilePic"
+        android:src="@drawable/profile_pic"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/profilePic"
+        android:layout_margin="5dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="0dp"
+        >
+        <TextView
+            android:id="@+id/doctorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="@string/sampleName"
+            android:fontFamily="@font/inter"
+            android:layout_marginTop="12dp"
+        />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/grey"
+            android:layout_below="@+id/doctorName"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="20dp"
+        />
+
+        <TextView
+            android:id="@+id/tvDesignation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tvGrey_head"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            tools:text="@string/sampleDesignation"
+            android:fontFamily="@font/inter"
+            android:layout_marginTop="2dp"
+            android:layout_below="@id/view"
+        />
+
+        <ImageView
+            android:id="@+id/ivDegree"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:contentDescription="@string/degree"
+            android:src="@drawable/degree"
+            android:layout_below="@id/tvDesignation"
+        />
+
+        <TextView
+            android:id="@+id/tvOpNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tvGrey"
+            android:textSize="12sp"
+            tools:text="@string/degrees"
+            android:layout_marginStart="4dp"
+            android:gravity="center_vertical"
+            android:layout_below="@id/tvDesignation"
+            android:layout_toEndOf="@id/ivDegree"
+        />
+
+        <ImageView
+            android:id="@+id/ivTime"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:contentDescription="@string/time"
+            android:layout_marginTop="6dp"
+            android:layout_below="@id/ivDegree"
+            android:src="@drawable/clock"
+        />
+
+        <TextView
+            android:id="@+id/tvAgeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tvGrey"
+            android:textSize="12sp"
+            tools:text="@string/sampleTime"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="6dp"
+            android:layout_below="@id/ivDegree"
+            android:layout_toEndOf="@id/ivTime"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivTime"
+            android:orientation="horizontal"
+            android:layout_marginTop="6dp"
+            >
+
+            <TextView
+                android:id="@+id/tvBookAppointment"
+                android:layout_width="105dp"
+                android:layout_height="24dp"
+                style="@style/subButton"
+                android:paddingHorizontal="9dp"
+                android:text="@string/bookAppointment"
+                />
+
+            <TextView
+                android:id="@+id/viewProfile"
+                android:layout_width="105dp"
+                android:layout_height="24dp"
+                style="@style/subButton"
+                android:paddingHorizontal="9dp"
+                android:layout_marginStart="6dp"
+                android:text="@string/viewProfile"
+                />
+
+        </LinearLayout>
+
+        
+    </RelativeLayout>
+</RelativeLayout>

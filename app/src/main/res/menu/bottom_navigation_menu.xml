@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:title="@string/home"
+        android:icon="@drawable/home_default"
+        />
+    <item
+        android:id="@+id/nav_booking"
+        android:title="@string/bookings"
+        android:icon="@drawable/bookings_default"/>
+    <item
+        android:id="@+id/nav_doctors"
+        android:title="@string/Doctors"
+        android:icon="@drawable/doctors_default"/>
+    <item
+        android:id="@+id/nav_health_package"
+        android:title="@string/health_package"
+        android:icon="@drawable/health_package_default"/>
+</menu>

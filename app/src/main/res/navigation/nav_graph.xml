@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/HomeFragment">
+
+    <fragment
+        android:id="@+id/HomeFragment"
+        android:name="com.example.welfast.BottomNavMenus.Home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/BookingsFragment"
+        android:name="com.example.welfast.BottomNavMenus.Booking.BookingsFragment"
+        android:label="@string/bookings"
+        tools:layout="@layout/fragment_bookings"/>
+    <fragment
+        android:id="@+id/DoctorsFragment"
+        android:name="com.example.welfast.BottomNavMenus.Doctors.DoctorsFragment"
+        android:label="@string/Doctors"
+        tools:layout="@layout/fragment_doctors"/>
+    <fragment
+        android:id="@+id/HealthPackagesFragment"
+        android:name="com.example.welfast.BottomNavMenus.HealthPackage.HealthPackagesFragment"
+        android:label="@string/health_package"
+        tools:layout="@layout/fragment_health_packages"/>
+
+    <fragment
+        android:id="@+id/EditProfile"
+        android:name="com.example.welfast.NavDrawerMenus.EditProfile.EditProfileFragment"
+        android:label="@string/editProfile"
+        tools:layout="@layout/fragment_edit_profile"/>
+</navigation>

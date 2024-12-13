@@ -1,0 +1,9 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:src="@drawable/clock_grey"
+            android:gravity="center"
+            android:width="4dp"
+            android:height="4dp" />
+    </item>
+</layer-list>

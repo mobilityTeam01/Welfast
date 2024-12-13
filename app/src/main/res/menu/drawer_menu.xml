@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_editProfile"
+        android:title="@string/editProfile"
+        android:icon="@drawable/edit_profile"/>
+    <item
+        android:id="@+id/nav_notifications"
+        android:title="@string/notifications"
+        android:icon="@drawable/notification"/>
+    <item
+        android:id="@+id/nav_contactUs"
+        android:title="@string/contactUs"
+        android:icon="@drawable/contact"/>
+
+    <item
+        android:id="@+id/nav_privacyPolicy"
+        android:title="@string/privacyPolicy"
+        android:icon="@drawable/privacy_policy"/>
+    <item
+        android:id="@+id/nav_aboutWelfast"
+        android:title="@string/aboutWelfast"
+        android:icon="@drawable/about"/>
+    <item
+        android:id="@+id/nav_logout"
+        android:title="@string/logOut"
+        android:icon="@drawable/logout"/>
+</menu>
