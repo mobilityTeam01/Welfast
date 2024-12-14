@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NavDrawerMenus.PrivacyPolicy.PrivacyPolicyFragment">
+    android:background="@color/white"
+    tools:context=".NavDrawerMenus.About.About">
 
     <LinearLayout
         android:id="@+id/llHeading"
@@ -21,7 +22,7 @@
             android:id="@+id/heading"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/privacyPolicy"
+            android:text="@string/aboutWelfast"
             android:gravity="center_vertical"
             android:layout_marginStart="8dp"
             style="@style/Heading"

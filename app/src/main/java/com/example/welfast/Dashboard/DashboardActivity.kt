@@ -1,28 +1,29 @@
 package com.example.welfast.Dashboard
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.welfast.Base.BaseActivity
+import com.example.welfast.NavDrawerMenus.About.About
+import com.example.welfast.NavDrawerMenus.ContactUs.ContactUs
+import com.example.welfast.NavDrawerMenus.EditProfile.EditProfile
+import com.example.welfast.NavDrawerMenus.Notification.Notification
+import com.example.welfast.NavDrawerMenus.PrivacyPolicy.PrivacyPolicy
 import com.example.welfast.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import de.hdodenhof.circleimageview.CircleImageView
 
-class DashboardActivity : AppCompatActivity() {
+class DashboardActivity : BaseActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navController: NavController
@@ -63,6 +64,35 @@ class DashboardActivity : AppCompatActivity() {
 
         // Connect NavigationView with NavController
         navView.setupWithNavController(navController)
+
+
+        val headerView = navView.getHeaderView(0)
+
+        val imgProfilePicture: CircleImageView = headerView.findViewById(R.id.imgProfile)
+        val llEdit: LinearLayout = headerView.findViewById(R.id.llEdit)
+        val llNotification: LinearLayout = headerView.findViewById(R.id.llNotification)
+        val llContact: LinearLayout = headerView.findViewById(R.id.llContact)
+        val llPrivacy: LinearLayout = headerView.findViewById(R.id.llPrivacy)
+        val llAbout: LinearLayout = headerView.findViewById(R.id.llAbout)
+
+        imgProfilePicture.setOnClickListener {
+            intentActivity(EditProfile())
+        }
+        llEdit.setOnClickListener {
+            intentActivity(EditProfile())
+        }
+        llNotification.setOnClickListener {
+            intentActivity(Notification())
+        }
+        llContact.setOnClickListener {
+            intentActivity(ContactUs())
+        }
+        llPrivacy.setOnClickListener {
+            intentActivity(PrivacyPolicy())
+        }
+        llAbout.setOnClickListener {
+            intentActivity(About())
+        }
 
 
         // Handle Bottom Navigation selection

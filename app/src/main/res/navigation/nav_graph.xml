@@ -25,10 +25,4 @@
         android:name="com.example.welfast.BottomNavMenus.HealthPackage.HealthPackagesFragment"
         android:label="@string/health_package"
         tools:layout="@layout/fragment_health_packages"/>
-
-    <fragment
-        android:id="@+id/EditProfile"
-        android:name="com.example.welfast.NavDrawerMenus.EditProfile.EditProfileFragment"
-        android:label="@string/editProfile"
-        tools:layout="@layout/fragment_edit_profile"/>
 </navigation>
