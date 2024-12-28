@@ -36,9 +36,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
@@ -47,7 +45,15 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    buildFeatures {
+        compose = true
+        dataBinding = true
+        viewBinding = true
+    }
 }
+
+
 
 dependencies {
 
@@ -63,6 +69,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.databinding.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -75,11 +82,21 @@ dependencies {
     implementation("com.github.ozcanalasalvar:otpview:2.0.1")
 
     implementation ("com.google.android.material:material:1.8.0")
+    implementation ("androidx.appcompat:appcompat:1.6.1")
     implementation ("androidx.navigation:navigation-fragment-ktx:2.7.0")
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.0")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
+    //Retrofit, gson
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
-    implementation ("com.github.Kwasow:BottomNavigationCircles-Android:1.2")
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 }

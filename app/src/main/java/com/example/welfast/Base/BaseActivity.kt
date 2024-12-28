@@ -1,16 +1,23 @@
 package com.example.welfast.Base
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.welfast.R
 
 
 abstract class BaseActivity : AppCompatActivity(), BaseView {
@@ -34,7 +41,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     override fun showLoadingIndicator(b: Boolean) {
         myProgressDialog = MyProgressDialog()
-        Log.e("Indicator", "Loading")
 //        myProgressDialog!!.initDialog(this)
 
         if (b) {
@@ -90,6 +96,42 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     fun isEmailValid(email: String): Boolean {
         val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
         return email.matches(emailRegex.toRegex())
+    }
+
+    fun checkKeyboardVisibility(linearLayout: LinearLayout,view: View,textView: TextView) {
+        linearLayout.getViewTreeObserver().addOnGlobalLayoutListener(ViewTreeObserver.OnGlobalLayoutListener {
+            val r = Rect()
+            linearLayout.getWindowVisibleDisplayFrame(r)
+            val screenHeight: Int = linearLayout.getRootView().height
+
+            // r.bottom is the position above soft keypad or device button.
+            // if keypad is shown, the r.bottom is smaller than that before.
+            val keypadHeight = screenHeight - r.bottom
+            Log.d(TAG, "keypadHeight = $keypadHeight")
+            if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
+                // keyboard is opened
+                textView.visibility = View.VISIBLE
+                view.visibility = View.GONE
+            } else {
+                // keyboard is closed
+                textView.visibility = View.GONE
+                view.visibility = View.VISIBLE
+            }
+        })
+    }
+
+    fun addTextChangedListener(editText: EditText) {
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (editText.error != null) {
+                    editText.error = null
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
 }

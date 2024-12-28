@@ -1,5 +1,6 @@
 package com.example.welfast.Dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -13,6 +14,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.welfast.Base.BaseActivity
+import com.example.welfast.BottomNavMenus.Home.HomeFragment
 import com.example.welfast.NavDrawerMenus.About.About
 import com.example.welfast.NavDrawerMenus.ContactUs.ContactUs
 import com.example.welfast.NavDrawerMenus.EditProfile.EditProfile
@@ -98,10 +100,12 @@ class DashboardActivity : BaseActivity() {
         // Handle Bottom Navigation selection
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_home -> navController.navigate(R.id.HomeFragment)
+
                 R.id.nav_booking -> navController.navigate(R.id.BookingsFragment)
                 R.id.nav_doctors -> navController.navigate(R.id.DoctorsFragment)
                 R.id.nav_health_package -> navController.navigate(R.id.HealthPackagesFragment)
+
+                R.id.nav_home ->navController.navigate(R.id.HomeFragment)
             }
             true
         }
@@ -117,5 +121,8 @@ class DashboardActivity : BaseActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+    fun openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START)
     }
 }

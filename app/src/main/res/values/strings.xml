@@ -26,10 +26,10 @@
     <string name="sampleParagraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim.</string>
     <string name="sampleParagraphSmall">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</string>
     <string name="degree">degree</string>
-    <string name="degreee">Degree :</string>
+    <string name="degreee">Degree        :</string>
     <string name="profilePic">profilePic</string>
     <string name="name">Name</string>
-    <string name="nameV">Name :</string>
+    <string name="nameV">Name          :</string>
     <string name="button">button</string>
     <string name="sampleName">Dr. Jessica</string>
     <string name="samplePhone">+91 856479683</string>
@@ -76,7 +76,7 @@
     <string name="landline">Land Line 1 : 0481-257-3278(257-FAST)</string>
     <string name="landline2">Land Line 2 :  0481-257-3279</string>
     <string name="success">Appointment Booked\nSuccessfully !</string>
-    <string name="specialty">Specialty :</string>
+    <string name="specialty">Specialty     :</string>
     <string name="visitingTime">Visiting Time :</string>
     <string name="contactNumber">Contact Number: (Please enter a 10 digit mobile number)</string>
     <string name="contactEmail">Contact email if any:(example @gmail.com)</string>
@@ -85,5 +85,24 @@
     <string name="doctors">Doctors</string>
     <string name="appointmentDate">Appointment Date</string>
     <string name="appointmentTime">Appointment Time</string>
+    <string name="save">Save Changes</string>
+    <string name="cannotBeEmpty">This field cannot be empty</string>
+    <string name="addresss">Address</string>
+    <string name="genderMR">Gender : </string>
+    <string name="validEmail">Enter a valid email</string>
+    <string name="one">1</string>
+    <string name="drugName">DICLOFENAC+LINSEED OIL+METHYL SALICYLATE+MENTHOL</string>
+    <string name="doseValue">42 tabs, 1-1-1, for 2 \nweeks, before food.</string>
+    <string name="slNo">No.</string>
+    <string name="drug">Brand Name</string>
+    <string name="dose">Instructions</string>
+    <string name="docName">"Doctor ’ s Name : "</string>
+    <string name="visitDate">"Visit Date : "</string>
+    <string name="patientName">"Patient Name : "</string>
+    <string name="ageMR">"Age : "</string>
+    <string name="docNote">Doctor’s Note:</string>
+    <string name="prescriptionDetails">Prescription Details</string>
+    <string name="visitingTimeHome">"Visit Date : "</string>
+    <string name="doctorsNameHome">"Doctor Name : "</string>
 
 </resources>

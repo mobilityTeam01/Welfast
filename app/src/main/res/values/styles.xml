@@ -57,7 +57,7 @@
         <item name="android:layout_marginHorizontal">18dp</item>
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:drawablePadding">30dp</item>
-        <item name="android:paddingStart">40dp</item>
+        <item name="android:paddingStart">30dp</item>
         <item name="android:paddingEnd">0dp</item>
         <item name="android:background">@drawable/grey_border</item>
     </style>
@@ -67,6 +67,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:layout_marginTop">8dp</item>
+        <item name="android:shadowColor">@color/shadow</item>
     </style>
 
     <style name="contactText" parent="TextAppearance.AppCompat.Small">
@@ -81,6 +82,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/tvGrey_head</item>
         <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
 
     <style name="viewProfileText" parent="TextAppearance.AppCompat.Small">
@@ -89,6 +91,7 @@
         <item name="android:textColor">@color/tvGrey_head</item>
         <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
 
     <style name="bookingEt" parent="TextAppearance.AppCompat.Small">

@@ -19,6 +19,9 @@
     <color name="tvGreyBold">#696969</color>
     <color name="tvGrey">#6B7280</color>
     <color name="tvGrey_head">#4B5563</color>
-    <color name="etGrey_border">#67729429</color>
+    <color name="etGrey_border">#296E6F6C</color>
     <color name="etGrey">#677294</color>
+    <color name="navBlue">#0d38ce</color>
+    <color name="prescription">#E7E7E7</color>
+    <color name="shadow">#00000040</color>
 </resources>

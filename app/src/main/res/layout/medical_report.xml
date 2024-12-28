@@ -1,164 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        >
-
-        <include
-            layout="@layout/back_button"/>
-
-        <TextView
-            android:id="@+id/heading"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/choosePatient"
-            android:gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            style="@style/Heading"
-            />
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="ScrollViewCount">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="40dp"
             >
-            <ImageView
-                android:layout_width="170dp"
-                android:layout_height="52dp"
-                android:contentDescription="@string/logo"
-                android:src="@drawable/icon"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="27dp"
-                />
+
+            <include
+                android:id="@+id/ivBackButton"
+                layout="@layout/back_button"/>
 
             <TextView
+                android:id="@+id/heading"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/visitInfo"
-                android:layout_marginTop="10dp"
-                style="@style/medicalReportHeading"
+                android:layout_height="match_parent"
+                android:text="@string/choosePatient"
+                android:gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                style="@style/Heading"
                 />
-
-            <TextView
-                android:id="@+id/doctorName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sampleName"
-                android:layout_marginTop="20dp"
-                style="@style/medicalReportText"
-                />
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sampleTime"
-                android:layout_marginTop="10dp"
-                style="@style/medicalReportText"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/patientInfo"
-                android:layout_marginTop="40dp"
-                style="@style/medicalReportHeading"
-                />
-
-            <TextView
-                android:id="@+id/tvPatientName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sampleName"
-                android:layout_marginTop="20dp"
-                style="@style/medicalReportText"
-                />
-            <TextView
-                android:id="@+id/tvAge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sampleTime"
-                android:layout_marginTop="10dp"
-                style="@style/medicalReportText"
-                />
-
-            <TextView
-                android:id="@+id/tvGender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sampleTime"
-                android:layout_marginTop="10dp"
-                style="@style/medicalReportText"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/assessment"
-                android:layout_marginTop="40dp"
-                style="@style/medicalReportHeading"
-                />
-
-            <TextView
-                android:id="@+id/tvAssessment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sampleParagraph"
-                android:layout_marginTop="10dp"
-                style="@style/medicalReportText"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/diagnosis"
-                android:layout_marginTop="40dp"
-                style="@style/medicalReportHeading"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvDiagnosis"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
-                android:layout_marginTop="26dp"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/prescription"
-                android:layout_marginTop="40dp"
-                style="@style/medicalReportHeading"
-                />
-
-            <TextView
-                android:id="@+id/tvPrescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sampleParagraph"
-                android:layout_marginTop="10dp"
-                style="@style/medicalReportText"
-                />
-
         </LinearLayout>
 
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="ScrollViewCount">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:layout_width="170dp"
+                    android:layout_height="52dp"
+                    android:contentDescription="@string/logo"
+                    android:src="@drawable/icon"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="27dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visitInfo"
+                    android:layout_marginTop="10dp"
+                    style="@style/medicalReportHeading"
+                    />
+
+                <TextView
+                    android:id="@+id/doctorName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/sampleName"
+                    android:layout_marginTop="20dp"
+                    style="@style/medicalReportText"
+                    />
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/sampleTime"
+                    android:layout_marginTop="10dp"
+                    style="@style/medicalReportText"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/patientInfo"
+                    android:layout_marginTop="40dp"
+                    style="@style/medicalReportHeading"
+                    />
+
+                <TextView
+                    android:id="@+id/tvPatientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/sampleName"
+                    android:layout_marginTop="20dp"
+                    style="@style/medicalReportText"
+                    />
+                <TextView
+                    android:id="@+id/tvAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/sampleTime"
+                    android:layout_marginTop="10dp"
+                    style="@style/medicalReportText"
+                    />
+
+                <TextView
+                    android:id="@+id/tvGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/male"
+                    android:layout_marginTop="10dp"
+                    style="@style/medicalReportText"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prescription"
+                    android:layout_marginTop="40dp"
+                    style="@style/medicalReportHeading"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/llPrescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="18dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/prescription"
+                    >
+                    <TextView
+                        android:id="@+id/tvSlNo"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"
+                        android:gravity="center"
+                        android:text="@string/slNo"
+                        />
+                    <TextView
+                        android:id="@+id/tvDrug"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.4"
+                        android:gravity="center"
+                        android:text="@string/drug"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvDosage"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:gravity="center"
+                        android:text="@string/dose"
+                        />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPrescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/docNote"
+                    android:layout_marginTop="40dp"
+                    style="@style/medicalReportHeading"
+                    />
+
+                <TextView
+                    android:id="@+id/tvPrescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/sampleParagraph"
+                    android:layout_marginTop="10dp"
+                    style="@style/medicalReportText"
+                    />
+
+            </LinearLayout>
 
 
-    </ScrollView>
 
-</LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</layout>

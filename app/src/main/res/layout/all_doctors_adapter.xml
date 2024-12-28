@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/profilePic"
         android:layout_margin="5dp"
-        android:paddingStart="30dp"
+        android:paddingStart="20dp"
         android:paddingEnd="0dp"
         >
         <TextView
@@ -70,7 +70,7 @@
         />
 
         <TextView
-            android:id="@+id/tvOpNumber"
+            android:id="@+id/tvDegree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/tvGrey"
@@ -93,7 +93,7 @@
         />
 
         <TextView
-            android:id="@+id/tvAgeValue"
+            android:id="@+id/tvVisitingTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/tvGrey"

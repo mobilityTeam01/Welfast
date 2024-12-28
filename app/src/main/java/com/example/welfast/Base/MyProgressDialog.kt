@@ -11,7 +11,6 @@ class MyProgressDialog {
 
     var dialog: Dialog? = null //obj
 
-
     fun initDialog(activity: Activity?) {
         dialog = Dialog(activity!!)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
