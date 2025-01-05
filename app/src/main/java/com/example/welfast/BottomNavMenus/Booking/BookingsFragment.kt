@@ -102,7 +102,7 @@ class BookingsFragment : BaseFragment() {
 
             override fun itemListClick(
                 patientName: String?,
-                patientId: Int?,
+                patientId: String?,
                 age: String?,
                 relationship: String?,
                 opNumber: String?

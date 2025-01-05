@@ -5,6 +5,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
+import android.icu.util.Calendar
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.text.Editable
@@ -18,6 +19,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.welfast.R
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 
 abstract class BaseActivity : AppCompatActivity(), BaseView {
@@ -67,6 +72,14 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
 
         val transaction = supportFragmentManager.beginTransaction()
         //transaction.replace(R.id.fgTracker, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    fun activityToFragment(fragment: Fragment) {
+
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.nav_host_fragment, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }
@@ -134,4 +147,49 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         })
     }
 
+    fun addTextChangedListenerTv(textView: TextView) {
+        textView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (textView.error != null) {
+                    textView.error = null
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
+    fun convertToTimestamp(date: String, time: String): String {
+        // Define the input formats for the date and time
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+        // Define the desired output format
+        val timestampFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        timestampFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+        return try {
+            // Parse the date and time strings into Date objects
+            val parsedDate = dateFormat.parse(date) ?: throw IllegalArgumentException("Invalid date format")
+            val parsedTime = timeFormat.parse(time) ?: throw IllegalArgumentException("Invalid time format")
+
+            // Combine the date and time into a single Calendar instance
+            val calendar = Calendar.getInstance()
+            calendar.time = parsedDate
+            val timeCalendar = Calendar.getInstance()
+            timeCalendar.time = parsedTime
+            calendar.set(Calendar.HOUR_OF_DAY, timeCalendar.get(Calendar.HOUR_OF_DAY))
+            calendar.set(Calendar.MINUTE, timeCalendar.get(Calendar.MINUTE))
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
+
+            // Format the combined date and time as a timestamp
+            timestampFormat.format(calendar.time)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            "Invalid input"
+        }
+    }
 }

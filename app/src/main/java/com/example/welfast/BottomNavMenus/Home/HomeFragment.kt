@@ -112,11 +112,11 @@ class HomeFragment : BaseFragment() {
             ) {
                 val intent = Intent(requireContext(), PatientListActivity()::class.java)
                 intent.putExtra("doctorsName", doctorsName)
-                intent.putExtra("doctorsId", doctorsId)
+                intent.putExtra("doctorsId", doctorsId.toString())
                 intent.putExtra("profilePic", profilePic)
                 intent.putExtra("specialization", specialization)
                 intent.putExtra("visitingTime", visitingTime)
-                intent.putExtra("from", "Home")
+                intent.putExtra("from", "Doctors")
                 startActivity(intent)
             }
         })

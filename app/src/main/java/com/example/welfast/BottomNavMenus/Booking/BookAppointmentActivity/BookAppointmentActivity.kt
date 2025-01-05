@@ -13,19 +13,30 @@ import com.example.welfast.R
 import com.example.welfast.databinding.ActivityBookAppoinmentActvityBinding
 import java.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.example.welfast.Base.BaseActivity
+import com.example.welfast.Base.Retrofit.ApiService
+import com.example.welfast.BottomNavMenus.Home.HomeFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
-class BookAppointmentActivity : AppCompatActivity() {
+class BookAppointmentActivity : BaseActivity() {
     lateinit var binding:ActivityBookAppoinmentActvityBinding
 
     lateinit var from:String
     lateinit var patient:String
     lateinit var patientName:String
-    var patientId:Int=0
+    lateinit var patientId:String
     lateinit var age:String
     lateinit var relationship:String
     lateinit var opNumber:String
@@ -44,7 +55,7 @@ class BookAppointmentActivity : AppCompatActivity() {
         from = intent.getStringExtra("from").toString()
         patient = intent.getStringExtra("patient").toString()
         patientName = intent.getStringExtra("patientName").toString()
-        patientId = intent.getIntExtra("patientId", 0)
+        patientId = intent.getStringExtra("patientId").toString()
         age = intent.getStringExtra("age").toString()
         relationship = intent.getStringExtra("relationship").toString()
         opNumber = intent.getStringExtra("opNumber").toString()
@@ -52,21 +63,77 @@ class BookAppointmentActivity : AppCompatActivity() {
         doctorsId = intent.getStringExtra("doctorsId").toString()
         specialization = intent.getStringExtra("specialization").toString()
 
-        Log.e("FROM",from)
-        Log.e("patientName",patientName)
+
         setData(from)
 
         setClicks()
+        initializeTextWatchers()
+    }
+
+    private fun initializeTextWatchers() {
+        addTextChangedListener(binding.etName   )
+        addTextChangedListener(binding.etAge    )
+        addTextChangedListener(binding.etPhone  )
+        addTextChangedListenerTv(binding.tvSpecialization  )
+        addTextChangedListenerTv(binding.tvDoctors)
+        addTextChangedListenerTv(binding.tvDate  )
+        addTextChangedListenerTv(binding.tvTime  )
     }
 
     private fun setClicks() {
         binding.buttonBookAppointment.button.text="Book Appointment"
         binding.ivBackButton.ivBack.setOnClickListener { finish() }
-        binding.buttonBookAppointment.button.setOnClickListener { validateData() }
+        binding.buttonBookAppointment.button.setOnClickListener {
+            if (validateData()){ callBookingApi() }
+        }
         binding.tvSpecialization.setOnClickListener { selectSpecialization() }
         binding.tvDoctors.setOnClickListener { selectDoctor() }
         binding.tvDate.setOnClickListener { setCalendar() }
         binding.tvTime.setOnClickListener { setTime() }
+    }
+
+    private fun callBookingApi(){
+        showLoadingIndicator(false)
+        val params = HashMap<String?, String?>()
+        params["patientId"] = patientId
+        params["doctorId"] = doctorsId
+        params["AppointmentDateTime"] = convertToTimestamp(binding.tvDate.text.toString(),binding.tvTime.text.toString()).toString()
+        CoroutineScope(Dispatchers.IO).launch {
+//            try {
+                val response = ApiService.invoke().bookAppointment(params)
+                withContext(Dispatchers.Main) {
+                    if (response.status == true) {
+                        hideLoadingIndicator()
+                        Toast.makeText(this@BookAppointmentActivity, response.message, Toast.LENGTH_SHORT).show()
+                        confirmationPopup()
+                    } else {
+                        hideLoadingIndicator()
+                        Toast.makeText(this@BookAppointmentActivity, response.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+//            } catch (e: Exception) {
+//                withContext(Dispatchers.Main) {
+//                    hideLoadingIndicator()
+//                    Toast.makeText(this@BookAppointmentActivity, "An error occurred. Please try again later.", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+        }
+    }
+
+    private fun confirmationPopup() {
+        Log.e("confirmationPopup","confirmationPopup")
+        val dialog = Dialog(this@BookAppointmentActivity)
+        dialog.setContentView(R.layout.appoinment_success_dialog)
+        //dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val ivDone = dialog.findViewById<ImageView>(R.id.ivDone)
+        val tvSuccess = dialog.findViewById<TextView>(R.id.tvSuccess)
+
+        ivDone.setOnClickListener {
+            activityToFragment(HomeFragment())
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     private fun selectDoctor() {
@@ -80,6 +147,7 @@ class BookAppointmentActivity : AppCompatActivity() {
     private fun setTime() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.time_picker_dialog)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val hourPicker = dialog.findViewById<NumberPicker>(R.id.hourPicker)
         val minutePicker = dialog.findViewById<NumberPicker>(R.id.minutePicker)
@@ -220,11 +288,7 @@ class BookAppointmentActivity : AppCompatActivity() {
             return false
         }
 
-        if (binding.etEmail.text.isEmpty()) {
-            binding.etEmail.error = getString(R.string.cannotBeEmpty)
-            scroll(binding.etEmail)
-            return false
-        } else if (binding.etEmail.text.isNotEmpty()) {
+        if (binding.etEmail.text.isNotEmpty()) {
             if (!isEmailValid(binding.etEmail.text.toString())) {
                 binding.etEmail.error = getString(R.string.validEmail)
                 scroll(binding.etEmail)
@@ -290,11 +354,6 @@ class BookAppointmentActivity : AppCompatActivity() {
         textView.requestFocus()
     }
 
-    private fun isEmailValid(email: String): Boolean {
-        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
-        return email.matches(emailRegex.toRegex())
-    }
-
     private fun scroll(targetEditText: EditText) {
 
         binding.scrollView.post {
@@ -306,5 +365,12 @@ class BookAppointmentActivity : AppCompatActivity() {
     private fun setData(from: String) {
         binding.etName.setText(patientName)
         binding.etAge.setText(age)
+        binding.etAge.setText(age)
+        binding.etOpNum.setText(opNumber)
+        binding.tvSpecialization.text = specialization
+        binding.tvDoctors.text = doctorsName
+
     }
+
+
 }

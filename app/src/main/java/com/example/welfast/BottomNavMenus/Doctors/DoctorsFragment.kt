@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.welfast.Base.BaseFragment
 import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Doctors.DoctorsListModel.DoctorsListData
+import com.example.welfast.BottomNavMenus.Doctors.PatientListActivity.PatientListActivity
 import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
 import com.example.welfast.R
 import com.example.welfast.databinding.FragmentDoctorsBinding
@@ -89,7 +90,7 @@ class DoctorsFragment : BaseFragment() {
 
         doctorsListAdapter = DoctorsListAdapter(doctorsList, object : DoctorsListAdapter.ItemClickListener {
 
-            override fun itemListClick(
+            override fun viewProfile(
                 doctorsName: String?,
                 doctorsId: Int?,
                 degree: String?,
@@ -104,6 +105,24 @@ class DoctorsFragment : BaseFragment() {
                 intent.putExtra("profilePic", profilePic)
                 intent.putExtra("specialization", specialization)
                 intent.putExtra("visitingTime", visitingTime)
+                startActivity(intent)
+            }
+
+            override fun book(
+                doctorsName: String?,
+                doctorsId: Int?,
+                degree: String?,
+                profilePic: String?,
+                specialization: String?,
+                visitingTime: String?
+            ) {
+                val intent = Intent(requireContext(), PatientListActivity()::class.java)
+                intent.putExtra("doctorsName", doctorsName)
+                intent.putExtra("doctorsId", doctorsId.toString())
+                intent.putExtra("profilePic", profilePic)
+                intent.putExtra("specialization", specialization)
+                intent.putExtra("visitingTime", visitingTime)
+                intent.putExtra("from", "Doctors")
                 startActivity(intent)
             }
         })

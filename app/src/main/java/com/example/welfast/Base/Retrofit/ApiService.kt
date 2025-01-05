@@ -1,5 +1,6 @@
 package com.example.welfast.Base.Retrofit
 
+import com.example.welfast.BottomNavMenus.Booking.BookAppointmentActivity.Model.AppointmentModel
 import com.example.welfast.BottomNavMenus.Booking.Model.PatientListModel
 import com.example.welfast.BottomNavMenus.Doctors.DoctorsListModel.DoctorsListModel
 import com.example.welfast.BottomNavMenus.HealthPackage.Models.HealthPackageModel
@@ -62,6 +63,11 @@ interface ApiService {
     @POST(Urls.GET_PATIENT_LIST)
     suspend fun getPatientList(@FieldMap params: HashMap<String?, String?>)
             : PatientListModel
+
+    @FormUrlEncoded
+    @POST(Urls.BOOK_APPOINTMENT)
+    suspend fun bookAppointment(@FieldMap params: HashMap<String?, String?>)
+            : AppointmentModel
 
     companion object {
         private val interceptor = HttpLoggingInterceptor()

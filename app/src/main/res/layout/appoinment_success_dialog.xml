@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="341dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
-    app:cardCornerRadius="48dp">
+    app:cardCornerRadius="30dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:id="@+id/tvSuccess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sampleParagraphSmall"
+            tools:text="@string/sampleParagraphSmall"
             android:layout_below="@id/success"
             android:textColor="@color/primary"
             android:gravity="center"
@@ -51,6 +51,7 @@
             />
 
         <ImageView
+            android:id="@+id/ivDone"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_below="@id/tvSuccess"

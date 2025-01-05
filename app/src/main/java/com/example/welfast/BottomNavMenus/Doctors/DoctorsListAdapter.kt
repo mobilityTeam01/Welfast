@@ -16,7 +16,8 @@ class DoctorsListAdapter(private var doctorsList: ArrayList<DoctorsListData>?, p
     RecyclerView.Adapter<DoctorsListAdapter.DoctorViewHolder>() {
 
     open interface ItemClickListener {
-        fun itemListClick(doctorsName: String?, doctorsId: Int?,degree: String?,profilePic: String?,specialization: String?,visitingTime:String?)
+        fun viewProfile(doctorsName: String?, doctorsId: Int?,degree: String?,profilePic: String?,specialization: String?,visitingTime:String?)
+        fun book(doctorsName: String?, doctorsId: Int?,degree: String?,profilePic: String?,specialization: String?,visitingTime:String?)
     }
     companion object {
         var mClickListener: ItemClickListener? = null
@@ -48,7 +49,13 @@ class DoctorsListAdapter(private var doctorsList: ArrayList<DoctorsListData>?, p
         }
 
         holder.viewProfile.setOnClickListener(View.OnClickListener {
-            mClickListener?.itemListClick(
+            mClickListener?.viewProfile(
+                doctor?.name,doctor?.doctorId,doctor?.degree,doctor?.profilePic,doctor?.specialization,doctor?.visitingTime
+            )
+        })
+
+        holder.tvBookAppointment.setOnClickListener(View.OnClickListener {
+            mClickListener?.book(
                 doctor?.name,doctor?.doctorId,doctor?.degree,doctor?.profilePic,doctor?.specialization,doctor?.visitingTime
             )
         })
@@ -65,6 +72,7 @@ class DoctorsListAdapter(private var doctorsList: ArrayList<DoctorsListData>?, p
         val tvSpecialization: TextView = view.findViewById(R.id.tvDesignation)
         val tvDegree: TextView = view.findViewById(R.id.tvDegree)
         val tvVisitingTime: TextView = view.findViewById(R.id.tvVisitingTime)
+        val tvBookAppointment: TextView = view.findViewById(R.id.tvBookAppointment)
     }
 
 }
