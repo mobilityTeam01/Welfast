@@ -18,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".BottomNavMenus.Doctors.PatientListActivity.PatientListActivity"
+            android:exported="false" />
+        <activity
             android:name=".BottomNavMenus.Home.InnerActivities.MedicalReport.MedicalReportActivity"
             android:exported="false" />
         <activity
@@ -36,7 +39,7 @@
             android:name=".NavDrawerMenus.EditProfile.EditProfile"
             android:exported="false" />
         <activity
-            android:name=".BottomNavMenus.Booking.BookAppoinmentActvity.BookAppoinmentActvity"
+            android:name=".BottomNavMenus.Booking.BookAppointmentActivity.BookAppointmentActivity"
             android:exported="false" />
         <activity
             android:name=".BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity"

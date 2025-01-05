@@ -29,6 +29,7 @@
     <string name="degreee">Degree        :</string>
     <string name="profilePic">profilePic</string>
     <string name="name">Name</string>
+    <string name="nameBA">Name :</string>
     <string name="nameV">Name          :</string>
     <string name="button">button</string>
     <string name="sampleName">Dr. Jessica</string>
@@ -104,5 +105,10 @@
     <string name="prescriptionDetails">Prescription Details</string>
     <string name="visitingTimeHome">"Visit Date : "</string>
     <string name="doctorsNameHome">"Doctor Name : "</string>
+    <string name="noNotifications">No Notifications</string>
+    <string name="sampleDate">June 2024</string>
+    <string name="rightArrow">rightArrow</string>
+    <string name="pick">Pick a time</string>
+    <string name="confirm">Confirm Time</string>
 
 </resources>

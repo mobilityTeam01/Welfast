@@ -1,70 +1,58 @@
-package com.example.welfast.BottomNavMenus.Booking
+package com.example.welfast.BottomNavMenus.Doctors.PatientListActivity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.welfast.Base.BaseFragment
+import com.example.welfast.Base.BaseActivity
 import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Booking.BookAppointmentActivity.BookAppointmentActivity
 import com.example.welfast.BottomNavMenus.Booking.Model.DataPatientList
 import com.example.welfast.BottomNavMenus.Booking.Model.PatientListModel
-import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
+import com.example.welfast.BottomNavMenus.Booking.PatientListAdapter
 import com.example.welfast.BottomNavMenus.Home.HomeFragment
 import com.example.welfast.R
-import com.example.welfast.databinding.FragmentBookingsBinding
+import com.example.welfast.databinding.ActivityPatientListBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-/**
- * A simple [Fragment] subclass.
- * Use the [BookingsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class BookingsFragment : BaseFragment() {
-    private var param1: String? = null
-    private var param2: String? = null
-
-    lateinit var binding:FragmentBookingsBinding
+class PatientListActivity : BaseActivity() {
+    lateinit var binding:ActivityPatientListBinding
     var patientList=ArrayList<DataPatientList>()
     private var patientListAdapter:PatientListAdapter?=null
 
+    lateinit var from:String
+    lateinit var doctorsName:String
+    lateinit var doctorsId:String
+    lateinit var specialization:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+        enableEdgeToEdge()
+        binding=DataBindingUtil.setContentView(this,R.layout.activity_patient_list)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding=DataBindingUtil.inflate(inflater, R.layout.fragment_bookings, container, false)
-        val view = binding.root
+        val intent = intent
+
+        from = intent.getStringExtra("from").toString()
+        doctorsName = intent.getStringExtra("doctorsName").toString()
+        doctorsId = intent.getStringExtra("doctorsId").toString()
+        specialization = intent.getStringExtra("specialization").toString()
 
         getPatientListApi()
         setClicks()
-
-        return view
     }
 
     private fun setClicks() {
-        binding.ivBackButton.ivBack.setOnClickListener { fragmentTransaction(HomeFragment()) }
+        binding.ivBackButton.ivBack.setOnClickListener { finish() }
 
-        binding.newPatientButton.setOnClickListener { fragmentToActivityIntent(BookAppointmentActivity()) }
+        binding.newPatientButton.setOnClickListener { intentActivity(BookAppointmentActivity()) }
     }
 
     private fun getPatientListApi() {
@@ -88,7 +76,7 @@ class BookingsFragment : BaseFragment() {
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     hideLoadingIndicator()
-                    Toast.makeText(requireContext(), "An error occurred. Please try again later.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@PatientListActivity, "An error occurred. Please try again later.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -96,7 +84,7 @@ class BookingsFragment : BaseFragment() {
 
     private fun setData(response: PatientListModel) {
 
-        binding.rvPatients.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvPatients.layoutManager = LinearLayoutManager(this@PatientListActivity)
 
         patientListAdapter = PatientListAdapter(patientList, object : PatientListAdapter.ItemClickListener {
 
@@ -107,39 +95,22 @@ class BookingsFragment : BaseFragment() {
                 relationship: String?,
                 opNumber: String?
             ) {
-                val intent = Intent(requireContext(), BookAppointmentActivity()::class.java)
-                intent.putExtra("from", "BookingsFragment")
+                val intent = Intent(this@PatientListActivity, BookAppointmentActivity()::class.java)
+                intent.putExtra("from", from)
                 intent.putExtra("patient", "old")
                 intent.putExtra("patientName", patientName)
                 intent.putExtra("patientId", patientId)
                 intent.putExtra("age", age)
                 intent.putExtra("relationship", relationship)
                 intent.putExtra("opNumber", opNumber)
+                intent.putExtra("doctorsName", doctorsName)
+                intent.putExtra("doctorsId", doctorsId)
+                intent.putExtra("specialization", specialization)
                 startActivity(intent)
             }
         })
 
         binding.rvPatients.adapter = patientListAdapter
 
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BookingsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BookingsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

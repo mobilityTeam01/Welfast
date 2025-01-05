@@ -1,10 +1,13 @@
 package com.example.welfast.Base.Retrofit
 
+import com.example.welfast.BottomNavMenus.Booking.Model.PatientListModel
 import com.example.welfast.BottomNavMenus.Doctors.DoctorsListModel.DoctorsListModel
+import com.example.welfast.BottomNavMenus.HealthPackage.Models.HealthPackageModel
 import com.example.welfast.BottomNavMenus.Home.InnerActivities.MedicalReport.Model.MedicalReportModel
 import com.example.welfast.BottomNavMenus.Home.Model.HomeModel
 import com.example.welfast.NavDrawerMenus.EditProfile.EditProfileApiModel.EditProfileApiModel
 import com.example.welfast.NavDrawerMenus.EditProfile.PatientDetailsApiModel.PatientDetailsApiModel
+import com.example.welfast.NavDrawerMenus.Notification.Models.NotificationModel
 import java.util.concurrent.TimeUnit
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
@@ -45,6 +48,20 @@ interface ApiService {
     @GET(Urls.DOCTORS_LIST)
     suspend fun getDoctors()
             : DoctorsListModel
+
+    @GET(Urls.GET_PACKAGES)
+    suspend fun getPackages()
+            : HealthPackageModel
+
+    @FormUrlEncoded
+    @POST(Urls.GET_NOTIFICATION)
+    suspend fun getNotifications(@FieldMap params: HashMap<String?, String?>)
+            : NotificationModel
+
+    @FormUrlEncoded
+    @POST(Urls.GET_PATIENT_LIST)
+    suspend fun getPatientList(@FieldMap params: HashMap<String?, String?>)
+            : PatientListModel
 
     companion object {
         private val interceptor = HttpLoggingInterceptor()

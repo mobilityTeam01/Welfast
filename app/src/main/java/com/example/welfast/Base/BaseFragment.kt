@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import com.example.welfast.R
 
 abstract class BaseFragment : Fragment(),BaseView {
     var myProgressDialog: MyProgressDialog? = null
@@ -19,12 +20,12 @@ abstract class BaseFragment : Fragment(),BaseView {
     }
 
 
-//    fun fragmentTransaction(fragment: Fragment) {
-//        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-//        transaction.replace(R.id.fgTracker, fragment)
-//        transaction.addToBackStack(null)
-//        transaction.commit()
-//    }
+    fun fragmentTransaction(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.nav_host_fragment, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
 
      override fun pageTransactionFragment(fragment: Fragment, back: String) {
 //        val transaction = requireActivity().supportFragmentManager.beginTransaction()

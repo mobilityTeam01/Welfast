@@ -1,11 +1,25 @@
 package com.example.welfast.BottomNavMenus.HealthPackage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.welfast.Base.BaseFragment
+import com.example.welfast.Base.Retrofit.ApiService
+import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
+import com.example.welfast.BottomNavMenus.HealthPackage.Models.HealthPackageModel
+import com.example.welfast.BottomNavMenus.HealthPackage.Models.TestArray
 import com.example.welfast.R
+import com.example.welfast.databinding.FragmentHealthPackagesBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -14,7 +28,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HealthPackagesFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HealthPackagesFragment : Fragment() {
+class HealthPackagesFragment : BaseFragment() {
+    lateinit var binding:FragmentHealthPackagesBinding
+
+    var healthPackageList=ArrayList<TestArray>()
+    private var healthPackageAdapter: HealthPackageAdapter? = null
+
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -31,7 +51,58 @@ class HealthPackagesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_health_packages, container, false)
+        binding=DataBindingUtil.inflate(inflater, R.layout.fragment_health_packages, container, false)
+
+        val view = binding.root
+        callHealthPackageApi()
+        return view
+    }
+
+    private fun callHealthPackageApi() {
+
+        showLoadingIndicator(false)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiService.invoke().getPackages()
+                withContext(Dispatchers.Main) {
+                    if (response.status == true) {
+                        hideLoadingIndicator()
+                        healthPackageList.addAll(response.diagnosticTest)
+                        setData(response)
+                    } else {
+                        hideLoadingIndicator()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    hideLoadingIndicator()
+                    Toast.makeText(requireContext(), "An error occurred. Please try again later.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun setData(response: HealthPackageModel) {
+        binding.rvHealthPackage.layoutManager = LinearLayoutManager(requireContext())
+
+        healthPackageAdapter = HealthPackageAdapter(healthPackageList, object : HealthPackageAdapter.ItemClickListener {
+
+            override fun itemListClick(
+                packageName: String?,
+                packageId: Int?,
+                price: String?,
+                specialization: String?,
+                visitingTime: String?
+            ) {
+               /* val intent = Intent(requireContext(), ViewProfileActivity()::class.java)
+                intent.putExtra("packageName", packageName)
+                intent.putExtra("packageId", packageId)
+                startActivity(intent)*/
+            }
+        })
+
+        binding.rvHealthPackage.adapter = healthPackageAdapter
+
     }
 
     companion object {

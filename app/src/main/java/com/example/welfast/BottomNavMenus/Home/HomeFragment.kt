@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.welfast.Base.BaseFragment
 import com.example.welfast.Base.Retrofit.ApiService
+import com.example.welfast.BottomNavMenus.Doctors.PatientListActivity.PatientListActivity
 import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
 import com.example.welfast.BottomNavMenus.Home.InnerActivities.MedicalReport.MedicalReportActivity
 import com.example.welfast.BottomNavMenus.Home.Model.DoctorsHome
@@ -109,12 +110,13 @@ class HomeFragment : BaseFragment() {
                 specialization: String?,
                 visitingTime: String?
             ) {
-                val intent = Intent(requireContext(), ViewProfileActivity()::class.java)
+                val intent = Intent(requireContext(), PatientListActivity()::class.java)
                 intent.putExtra("doctorsName", doctorsName)
                 intent.putExtra("doctorsId", doctorsId)
                 intent.putExtra("profilePic", profilePic)
                 intent.putExtra("specialization", specialization)
                 intent.putExtra("visitingTime", visitingTime)
+                intent.putExtra("from", "Home")
                 startActivity(intent)
             }
         })

@@ -17,10 +17,13 @@ class Urls {
         //Urls entity
 
         const val GET_PATIENT_DETAILS = "PatientDetails/PatientById"
+        const val GET_PATIENT_LIST = "PatientDetails/contactNo"
         const val DOCTORS_LIST = "Doctor/doctors"
         const val EDIT_PROFILE = "PatientDetails/EditProfile"
         const val MEDICAL_REPORT = "MedicalReport"
         const val HOME_API = "Home/homeview"
+        const val GET_PACKAGES = "Packages/GetPackages"
+        const val GET_NOTIFICATION = "Notification/Notifications"
 
     }
 

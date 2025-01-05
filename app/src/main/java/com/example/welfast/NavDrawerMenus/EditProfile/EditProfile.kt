@@ -41,7 +41,6 @@ class EditProfile : BaseActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
             binding=DataBindingUtil.setContentView(this,R.layout.activity_edit_profile)
-            //binding=ActivityEditProfileBinding.inflate(layoutInflater)
 
             setClicks()
 
@@ -143,11 +142,6 @@ class EditProfile : BaseActivity() {
     }
 
     private fun validateData(): Boolean {
-        if (binding.etName.text.isEmpty()) {
-            binding.etName.error = getString(R.string.cannotBeEmpty)
-            scroll(binding.etName)
-            return false
-        }
 
         if (binding.etName.text.isEmpty()) {
             binding.etName.error = getString(R.string.cannotBeEmpty)
