@@ -6,12 +6,7 @@ class Urls {
         //New URLS
         //(Development server)
         const  val BASE ="http://208.109.14.7:81/api/"
-        const  val IMAGE_BASE ="http://208.109.14.7:81/api/"
-
-
-        //(Production server)
-//        const  val BASE ="https://eva.srishtis.com/api/"
-//        const  val IMAGE_BASE ="https://eva.srishtis.com//public/uploads/photo/"
+        const  val IMAGE_BASE ="http://208.109.14.7:81/"
 
 
         //Urls entity

@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
@@ -30,12 +31,15 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.io.FileOutputStream
 
 class EditProfile : BaseActivity() {
 
     lateinit var binding:ActivityEditProfileBinding
     private val REQUEST_IMAGE_PICK = 100
     var selectedGender="male"
+
+    private var imageUri: Uri? = null
 
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,9 +99,12 @@ class EditProfile : BaseActivity() {
     }
 
     private fun setData(response: PatientDetailsApiModel) {
+        Log.e("PIC",response.data?.profilePic.toString())
+        Log.e("PIC2",PreferenceHelper.read(Constance.USER_PICTURE).toString())
+        PreferenceHelper.write(Constance.USER_PICTURE,response.data?.profilePic.toString())
         binding.etName.setText(response.data?.name)
         binding.etAge.setText(response.data?.age)
-        if (response.data?.gender.equals("male")){
+        if (response.data?.gender.equals("male")||response.data?.gender.equals("Male")){
             binding.rgGender.check(R.id.rbMale)
             selectedGender="male"
         }else{
@@ -110,10 +117,13 @@ class EditProfile : BaseActivity() {
         binding.etAddress.setText(response.data?.address?.city)
         binding.etEmail.setText(response.data?.emailId)
 
-//        Glide.with(this)
-//            .load(Urls.IMAGE_BASE+PreferenceHelper.read(Constance.USER_PICTURE))
-//            .placeholder(R.drawable.circular_profile_pic)
-//            .into(binding.imgProfile)
+        Glide.with(this)
+            .load(Urls.IMAGE_BASE+PreferenceHelper.read(Constance.USER_PICTURE))
+            .placeholder(R.drawable.circular_profile_pic)
+            .into(binding.imgProfile)
+
+        PreferenceHelper.write(Constance.PATIENT_ID,response.data?.mrn.toString())
+        PreferenceHelper.write(Constance.CONTACT_NUMBER,response.data?.contactNo.toString())
     }
 
     private fun setClicks() {
@@ -133,6 +143,7 @@ class EditProfile : BaseActivity() {
         binding.ivBackButton.ivBack.setOnClickListener { finish() }
         binding.saveButton.button.text=getString(R.string.save)
         binding.saveButton.button.setOnClickListener {
+            removeFocus()
             if (validateData()){
                 callUpdateProfileDetailsApi()
             }
@@ -221,49 +232,42 @@ class EditProfile : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
-                // Set the image on the ImageView
+
                 binding.imgProfile.setImageURI(uri)
+                Glide.with(this)
+                    .load(uri)
+                    .placeholder(R.drawable.circular_profile_pic)
+                    .into(binding.imgProfile)
+                imageUri = uri
             }
         }
     }
 
     private fun callUpdateProfileDetailsApi() {
+        Log.e("Image",imageUri.toString())
         showLoadingIndicator(false)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-//                val file: File? = if (imageUri != null) {
-//                    val filesDir = requireContext().filesDir
-//                    val file = File(filesDir, "image.jpg")
-//
-//                    val inputStream = requireContext().contentResolver.openInputStream(imageUri!!)
-//                    val outputStream = FileOutputStream(file)
-//                    inputStream?.copyTo(outputStream)
-//
-//                    file
-//                } else {
-//                    null
-//                }
+                val file: File? = if (imageUri != null) {
+                    val filesDir = this@EditProfile.filesDir
+                    val file = File(filesDir, "image.jpg")
+                    val inputStream = this@EditProfile.contentResolver.openInputStream(imageUri!!)
+                    val outputStream = FileOutputStream(file)
+                    inputStream?.copyTo(outputStream)
 
-//                val requestFile: RequestBody? = file?.let {
-//                    it.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-//                }
-//
-//                val multipartBody: MultipartBody.Part? = requestFile?.let {
-//                    MultipartBody.Part.createFormData("photo", file?.name, it)
-//                }
-
-                //remove this line
-                val file=null
+                    file
+                } else {
+                    null
+                }
 
                 val requestFile: RequestBody? = file?.let {
                     it.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                 }
 
                 val multipartBody: MultipartBody.Part? = requestFile?.let {
-                    MultipartBody.Part.createFormData("photo", null.toString())
+                    MultipartBody.Part.createFormData("profilePic", file.name, it)
                 }
 
-                //val userid = RequestBody.create(MultipartBody.FORM, PrefsHelper.read(Constance.USER_ID).toString())
                 val name = RequestBody.create(MultipartBody.FORM, binding.etName.text.toString())
                 val age = RequestBody.create(MultipartBody.FORM, binding.etAge.text.toString())
                 val gender = RequestBody.create(MultipartBody.FORM, selectedGender)
@@ -272,20 +276,21 @@ class EditProfile : BaseActivity() {
                 val address = RequestBody.create(MultipartBody.FORM, binding.etAddress.text.toString())
 
                 val map = HashMap<String?, RequestBody?>()
-                //map["user_id"] = userid
                 map["Name"] = name
                 map["Age"] = age
                 map["Gender"] = gender
                 map["ContactNo"] = contactNumber
                 map["BloodGroup"] = bloodGroup
-                map["Address"] = address
+                map["address"] = address
 
                 val response = ApiService.invoke().editProfile(multipartBody, map)
 
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {
                         hideLoadingIndicator()
-                        removeFocus()
+                        //PreferenceHelper.write(Constance.PATIENT_ID,response.data?.mrn.toString())
+                        PreferenceHelper.write(Constance.CONTACT_NUMBER,response.data?.contactNo.toString())
+                        PreferenceHelper.write(Constance.USER_PICTURE,response.data?.profilePic.toString())
                         Toast.makeText(this@EditProfile, response.message, Toast.LENGTH_SHORT).show()
                         finish()
 
@@ -304,7 +309,6 @@ class EditProfile : BaseActivity() {
     }
 
     private fun removeFocus() {
-        Log.e("FOCUS","remove")
         binding.etName.clearFocus()
         binding.etAge.clearFocus()
         binding.etBlood.clearFocus()

@@ -18,9 +18,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.example.welfast.Base.BaseActivity
 import com.example.welfast.Base.Constance
 import com.example.welfast.Base.PreferenceHelper
+import com.example.welfast.Base.Retrofit.Urls
 import com.example.welfast.BottomNavMenus.Home.HomeFragment
 import com.example.welfast.Login.Login.LoginActivity
 import com.example.welfast.NavDrawerMenus.About.About
@@ -110,6 +112,10 @@ class DashboardActivity : BaseActivity() {
             setLogout()
         }
 
+        Glide.with(this)
+            .load(Urls.IMAGE_BASE+PreferenceHelper.read(Constance.USER_PICTURE))
+            .placeholder(R.drawable.circular_profile_pic)
+            .into(imgProfilePicture)
 
         // Handle Bottom Navigation selection
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->

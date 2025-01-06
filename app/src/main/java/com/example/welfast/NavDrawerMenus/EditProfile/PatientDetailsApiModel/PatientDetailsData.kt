@@ -20,5 +20,6 @@ data class PatientDetailsData(
     @SerializedName("diabetes"              ) var diabetes              : Boolean? = null,
     @SerializedName("externalPatientStatus" ) var externalPatientStatus : Int?     = null,
     @SerializedName("clinicFileId"          ) var clinicFileId          : String?  = null,
-    @SerializedName("relationship"          ) var relationship          : String?  = null
+    @SerializedName("relationship"          ) var relationship          : String?  = null,
+    @SerializedName("profilePic"            ) var profilePic          : String?  = null
 )

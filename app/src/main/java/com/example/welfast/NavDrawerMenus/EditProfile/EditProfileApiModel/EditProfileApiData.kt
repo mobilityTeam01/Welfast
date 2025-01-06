@@ -9,5 +9,6 @@ data class EditProfileApiData(
     @SerializedName("gender"     ) var gender     : String? = null,
     @SerializedName("contactNo"  ) var contactNo  : String? = null,
     @SerializedName("bloodGroup" ) var bloodGroup : String? = null,
+    @SerializedName("profilePic" ) var profilePic : String? = null,
     @SerializedName("city"       ) var city       : String? = null
 )
