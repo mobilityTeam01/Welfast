@@ -25,6 +25,7 @@ class Urls {
         const val GET_PACKAGES = "Packages/GetPackages"
         const val GET_NOTIFICATION = "Notification/Notifications"
         const val BOOK_APPOINTMENT = "Appointment/BookAppointment"
+        const val SEND_OTP = "Appointment/BookAppointment"
 
     }
 

@@ -7,23 +7,21 @@ import android.widget.ImageButton
 import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.welfast.R
 import com.example.welfast.databinding.ActivityBookAppoinmentActvityBinding
 import java.text.SimpleDateFormat
 import android.icu.util.Calendar
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.compose.ui.graphics.Color
 import com.example.welfast.Base.BaseActivity
 import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Home.HomeFragment
+import com.example.welfast.Dashboard.DashboardActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,7 +62,7 @@ class BookAppointmentActivity : BaseActivity() {
         specialization = intent.getStringExtra("specialization").toString()
 
 
-        setData(from)
+        setData(from,patient)
 
         setClicks()
         initializeTextWatchers()
@@ -124,14 +122,16 @@ class BookAppointmentActivity : BaseActivity() {
         Log.e("confirmationPopup","confirmationPopup")
         val dialog = Dialog(this@BookAppointmentActivity)
         dialog.setContentView(R.layout.appoinment_success_dialog)
-        //dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val ivDone = dialog.findViewById<ImageView>(R.id.ivDone)
         val tvSuccess = dialog.findViewById<TextView>(R.id.tvSuccess)
 
         ivDone.setOnClickListener {
-            activityToFragment(HomeFragment())
+
             dialog.dismiss()
+            finish()
+            intentActivity(DashboardActivity())
         }
         dialog.show()
     }
@@ -362,13 +362,39 @@ class BookAppointmentActivity : BaseActivity() {
         targetEditText.requestFocus()
     }
 
-    private fun setData(from: String) {
+    private fun setData(from: String, patient: String) {
+        if (patient=="old"&& from=="BookingsFragment"){
+            binding.tvSpecialization.text = ""
+            binding.tvDoctors.text = ""
+        }else if (patient=="old"){
+            binding.tvSpecialization.text = specialization
+            binding.tvDoctors.text = doctorsName
+
+            binding.tvDoctors.isEnabled=false
+            binding.tvSpecialization.isEnabled=false
+            binding.etName.isEnabled=false
+            binding.etAge.isEnabled=false
+            binding.etOpNum.isEnabled=false
+
+            binding.etName.setBackgroundResource(R.drawable.grey_fill)
+            binding.etName.setTextColor(getResources().getColor(R.color.black))
+
+            binding.etAge.setBackgroundResource(R.drawable.grey_fill)
+            binding.etAge.setTextColor(getResources().getColor(R.color.black))
+
+            binding.etOpNum.setBackgroundResource(R.drawable.grey_fill)
+            binding.etOpNum.setTextColor(getResources().getColor(R.color.black))
+
+            binding.tvSpecialization.setBackgroundResource(R.drawable.grey_fill)
+            binding.tvSpecialization.setTextColor(getResources().getColor(R.color.black))
+
+            binding.tvDoctors.setBackgroundResource(R.drawable.grey_fill)
+            binding.tvDoctors.setTextColor(getResources().getColor(R.color.black))
+        }
         binding.etName.setText(patientName)
         binding.etAge.setText(age)
-        binding.etAge.setText(age)
         binding.etOpNum.setText(opNumber)
-        binding.tvSpecialization.text = specialization
-        binding.tvDoctors.text = doctorsName
+
 
     }
 

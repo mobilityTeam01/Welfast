@@ -4,6 +4,7 @@ class Constance {
     companion object{
         const val PATIENT_ID="PATIENT_ID"
         const val CONTACT_NUMBER="CONTACT_NUMBER"
+        const val IS_LOGGED_IN="is_logged_in"
 
     }
 }

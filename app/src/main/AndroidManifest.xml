@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".Base.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,6 +18,10 @@
         android:theme="@style/Theme.Welfast"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <activity
+            android:name=".Login.Login.LoginActivity"
+            android:exported="false" />
         <activity
             android:name=".BottomNavMenus.Doctors.PatientListActivity.PatientListActivity"
             android:exported="false" />
@@ -45,9 +50,6 @@
             android:name=".BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.theme.MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".Dashboard.DashboardActivity"
             android:exported="true"
             android:label="@string/app_name"
@@ -57,6 +59,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Login.SplashScreen"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <meta-data

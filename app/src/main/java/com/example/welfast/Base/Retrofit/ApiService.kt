@@ -6,6 +6,7 @@ import com.example.welfast.BottomNavMenus.Doctors.DoctorsListModel.DoctorsListMo
 import com.example.welfast.BottomNavMenus.HealthPackage.Models.HealthPackageModel
 import com.example.welfast.BottomNavMenus.Home.InnerActivities.MedicalReport.Model.MedicalReportModel
 import com.example.welfast.BottomNavMenus.Home.Model.HomeModel
+import com.example.welfast.Login.Login.Model.OtpModel
 import com.example.welfast.NavDrawerMenus.EditProfile.EditProfileApiModel.EditProfileApiModel
 import com.example.welfast.NavDrawerMenus.EditProfile.PatientDetailsApiModel.PatientDetailsApiModel
 import com.example.welfast.NavDrawerMenus.Notification.Models.NotificationModel
@@ -68,6 +69,11 @@ interface ApiService {
     @POST(Urls.BOOK_APPOINTMENT)
     suspend fun bookAppointment(@FieldMap params: HashMap<String?, String?>)
             : AppointmentModel
+
+    @FormUrlEncoded
+    @POST(Urls.SEND_OTP)
+    suspend fun sendOtp(@FieldMap params: HashMap<String?, String?>)
+            : OtpModel
 
     companion object {
         private val interceptor = HttpLoggingInterceptor()

@@ -1,8 +1,13 @@
 package com.example.welfast.Dashboard
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
+import android.view.Window
+import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -14,7 +19,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.welfast.Base.BaseActivity
+import com.example.welfast.Base.Constance
+import com.example.welfast.Base.PreferenceHelper
 import com.example.welfast.BottomNavMenus.Home.HomeFragment
+import com.example.welfast.Login.Login.LoginActivity
 import com.example.welfast.NavDrawerMenus.About.About
 import com.example.welfast.NavDrawerMenus.ContactUs.ContactUs
 import com.example.welfast.NavDrawerMenus.EditProfile.EditProfile
@@ -22,6 +30,7 @@ import com.example.welfast.NavDrawerMenus.Notification.Notification
 import com.example.welfast.NavDrawerMenus.PrivacyPolicy.PrivacyPolicy
 import com.example.welfast.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationView
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -76,6 +85,7 @@ class DashboardActivity : BaseActivity() {
         val llContact: LinearLayout = headerView.findViewById(R.id.llContact)
         val llPrivacy: LinearLayout = headerView.findViewById(R.id.llPrivacy)
         val llAbout: LinearLayout = headerView.findViewById(R.id.llAbout)
+        val llLogOut: LinearLayout = headerView.findViewById(R.id.llLogOut)
 
         imgProfilePicture.setOnClickListener {
             intentActivity(EditProfile())
@@ -96,6 +106,10 @@ class DashboardActivity : BaseActivity() {
             intentActivity(About())
         }
 
+        llLogOut.setOnClickListener {
+            setLogout()
+        }
+
 
         // Handle Bottom Navigation selection
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
@@ -109,6 +123,34 @@ class DashboardActivity : BaseActivity() {
             }
             true
         }
+    }
+
+    private fun setLogout() {
+        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
+        bottomSheetDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_logout)
+
+        bottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+
+        val btnCancel = bottomSheetDialog.findViewById<Button>(R.id.btnCancel)
+        val btnLogout = bottomSheetDialog.findViewById<Button>(R.id.btnLogout)
+
+        btnCancel?.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
+        btnLogout?.setOnClickListener {
+            PreferenceHelper.clearPref()
+            PreferenceHelper.writeBool(Constance.IS_LOGGED_IN, false)
+            val intent1 = Intent(this, LoginActivity::class.java)
+            startActivity(intent1)
+            finish()
+            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.show()
     }
 
     override fun onSupportNavigateUp(): Boolean {

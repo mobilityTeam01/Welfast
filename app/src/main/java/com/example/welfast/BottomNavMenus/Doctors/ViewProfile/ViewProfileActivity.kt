@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.example.welfast.Base.BaseActivity
+import com.example.welfast.BottomNavMenus.Doctors.PatientListActivity.PatientListActivity
 import com.example.welfast.R
 import com.example.welfast.databinding.ActivityViewProfileBinding
 
@@ -48,5 +49,17 @@ class ViewProfileActivity : BaseActivity() {
         binding.tvDegree.text      =degree
         binding.tvSpecialty.text   =specialization
         binding.tvVisitingTime.text=visitingTime
+
+        binding.buttonBookAppointment.button.text="Book Appointment"
+        binding.buttonBookAppointment.button.setOnClickListener {
+            val intent = Intent(this, PatientListActivity()::class.java)
+            intent.putExtra("doctorsName", doctorsName)
+            intent.putExtra("doctorsId", doctorsId.toString())
+            intent.putExtra("profilePic", profilePic)
+            intent.putExtra("specialization", specialization)
+            intent.putExtra("visitingTime", visitingTime)
+            intent.putExtra("from", "Doctors")
+            startActivity(intent)
+        }
     }
 }

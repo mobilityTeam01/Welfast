@@ -58,7 +58,6 @@
                     android:id="@+id/etAge"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:maxLength="3"
                     android:inputType="number"
                     android:autofillHints=""
                     android:hint="@string/age"

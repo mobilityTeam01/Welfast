@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="136dp"
+            android:layout_height="135dp"
+            android:contentDescription="@string/logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.161"
+            app:srcCompat="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="@string/logIn"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.049" />
+
+        <EditText
+            android:id="@+id/etPhoneNumber"
+            android:layout_width="313dp"
+            android:layout_height="45dp"
+            android:background="@drawable/tv_grey_bg"
+            android:inputType="phone"
+            android:text="@string/enterPhone"
+            android:gravity="center"
+            android:autofillHints="phone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.524"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.112"
+            android:labelFor="@id/etPhoneNumber" />
+
+        <LinearLayout
+            android:id="@+id/llOtp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber"
+            app:layout_constraintVertical_bias="0.073"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            >
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="279dp"
+                android:layout_height="20dp"
+                android:textSize="14sp"
+                android:text="@string/otp"
+                android:gravity="center"
+                />
+
+            <com.ozcanalasalvar.otp_view.view.OtpView
+                android:id="@+id/otpView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:activeColor="@color/white"
+                app:autoFocusEnabled="false"
+                app:digits="4"
+                app:fontFamily="@font/inter"
+                app:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                app:textSize="22" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/didNotReceive"
+                android:textSize="14sp"
+                android:layout_marginTop="27dp"
+                 />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resend"
+                android:textColor="@color/blue"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                />
+
+            <TextView
+                android:id="@+id/loginButton"
+                android:layout_width="315dp"
+                android:layout_height="48dp"
+                android:background="@drawable/button_bg"
+                android:text="@string/logIn"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:layout_marginTop="50dp"
+                 />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/sendOtpButton"
+            android:layout_width="315dp"
+            android:layout_height="48dp"
+            android:background="@drawable/button_bg"
+            android:text="@string/sendOtp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -105,4 +105,12 @@
         <item name="android:background">@drawable/grey_border</item>
     </style>
 
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">?android:attr/windowBackground</item>
+    </style>
+
 </resources>

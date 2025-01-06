@@ -110,5 +110,9 @@
     <string name="rightArrow">rightArrow</string>
     <string name="pick">Pick a time</string>
     <string name="confirm">Confirm Time</string>
+    <string name="sendOtp">Send Otp</string>
+    <string name="sure">Are you sure you want to log out?</string>
+    <string name="cancel">Cancel</string>
+    <string name="logOutYes">Yes, Logout</string>
 
 </resources>
