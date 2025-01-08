@@ -10,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.welfast.Base.BaseFragment
+import com.example.welfast.Base.Constance
+import com.example.welfast.Base.PreferenceHelper
 import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Booking.BookAppointmentActivity.BookAppointmentActivity
 import com.example.welfast.BottomNavMenus.Booking.Model.DataPatientList
@@ -71,11 +73,12 @@ class BookingsFragment : BaseFragment() {
 
         showLoadingIndicator(false)
         val params = HashMap<String?, String?>()
-        //params["patientId"] = PreferenceHelper.read(Constance.CONTACT_NUMBER)
-        params["contactNo"] = "9605736882"
+        params["patientId"] = PreferenceHelper.read(Constance.CONTACT_NUMBER)
+
+        val authToken = "Bearer"+ PreferenceHelper.read(Constance.TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = ApiService.invoke().getPatientList(params)
+                val response = ApiService.invoke().getPatientList(authToken,params)
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {
                         hideLoadingIndicator()

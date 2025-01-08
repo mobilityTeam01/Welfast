@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.welfast.Base.BaseFragment
+import com.example.welfast.Base.Constance
+import com.example.welfast.Base.PreferenceHelper
 import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Doctors.PatientListActivity.PatientListActivity
 import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
@@ -70,11 +72,11 @@ class HomeFragment : BaseFragment() {
 
         showLoadingIndicator(false)
         val params = HashMap<String?, String?>()
-        //params["patientId"] = PreferenceHelper.read(Constance.PATIENT_ID)
-        params["patientId"] = "A1035"
+        params["patientId"] = PreferenceHelper.read(Constance.PATIENT_ID)
+        val authToken = "Bearer"+ PreferenceHelper.read(Constance.TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = ApiService.invoke().getHomeDetails(params)
+                val response = ApiService.invoke().getHomeDetails(authToken,params)
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {
                         hideLoadingIndicator()

@@ -75,11 +75,11 @@ class EditProfile : BaseActivity() {
 
         showLoadingIndicator(false)
         val params = HashMap<String?, String?>()
-        //params["patientId"] = PreferenceHelper.read(Constance.PATIENT_ID)
-        params["patientId"] = "A1035"
+        params["patientId"] = PreferenceHelper.read(Constance.PATIENT_ID)
+        val authToken = "Bearer"+PreferenceHelper.read(Constance.TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = ApiService.invoke().getPatientDetails(params)
+                val response = ApiService.invoke().getPatientDetails(authToken,params)
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {
                         hideLoadingIndicator()
@@ -283,7 +283,9 @@ class EditProfile : BaseActivity() {
                 map["BloodGroup"] = bloodGroup
                 map["address"] = address
 
-                val response = ApiService.invoke().editProfile(multipartBody, map)
+                val authToken = "Bearer"+PreferenceHelper.read(Constance.TOKEN)
+
+                val response = ApiService.invoke().editProfile(authToken,multipartBody, map)
 
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {

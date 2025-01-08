@@ -47,7 +47,7 @@ class LoginActivity : BaseActivity() {
         params["phoneNumber"] = binding.etPhoneNumber.text.toString()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = ApiService.invoke().sendOtp(params)
+                val response = ApiService.invoke().verifyOtp(params)
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {
                         hideLoadingIndicator()

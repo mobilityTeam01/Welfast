@@ -29,7 +29,11 @@ class SplashScreen : BaseActivity() {
 //            if (PreferenceHelper.readBool(Constance.IS_LOGGED_IN)==true){
 //                intentActivity(DashboardActivity())
 //            }else{
-                intentActivity(LoginActivity())
+                intentActivity(DashboardActivity())
+
+            PreferenceHelper.write(Constance.PATIENT_ID,"A1035")
+            PreferenceHelper.write(Constance.CONTACT_NUMBER,"9605736882")
+            PreferenceHelper.write(Constance.TOKEN,"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImp0aSI6Ijg1MjEyNGQ2LTExMTQtNGVkNC05MTU3LWUyZGU0MjJhZDM5OCIsImV4cCI6MTczNjMxMDM3MiwiaXNzIjoiV2VsZmFzdEFwaSIsImF1ZCI6IldlbGZhc3RBcGkifQ.fRo2uifXwRZnBfgEMRK_V-xX9jOn5HAGGcMqHRLYlTE")
 //            }
         }, 2000)
     }

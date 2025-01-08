@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.welfast.Base.BaseActivity
+import com.example.welfast.Base.Constance
+import com.example.welfast.Base.PreferenceHelper
 import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Doctors.DoctorsListAdapter
 import com.example.welfast.BottomNavMenus.Doctors.DoctorsListModel.DoctorsListData
@@ -20,6 +22,7 @@ import com.example.welfast.BottomNavMenus.Home.InnerActivities.MedicalReport.Mod
 import com.example.welfast.R
 import com.example.welfast.databinding.ActivityViewProfileBinding
 import com.example.welfast.databinding.MedicalReportBinding
+import com.example.welfast.databinding.MedicalReportTestBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,11 +48,11 @@ class MedicalReportActivity : BaseActivity() {
 
         showLoadingIndicator(false)
         val params = HashMap<String?, String?>()
-        //params["patientId"] = PreferenceHelper.read(Constance.PATIENT_ID)
-        params["patientId"] = "A1005"
+        params["patientId"] = PreferenceHelper.read(Constance.PATIENT_ID)
+        val authToken = "Bearer"+ PreferenceHelper.read(Constance.TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = ApiService.invoke().getMedicalReport(params)
+                val response = ApiService.invoke().getMedicalReport(authToken,params)
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {
                         hideLoadingIndicator()

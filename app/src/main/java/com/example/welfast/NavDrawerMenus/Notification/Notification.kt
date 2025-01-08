@@ -8,6 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.welfast.Base.BaseActivity
+import com.example.welfast.Base.Constance
+import com.example.welfast.Base.PreferenceHelper
 import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
 import com.example.welfast.BottomNavMenus.Home.DoctorsListHomeAdapter
@@ -43,11 +45,11 @@ class Notification : BaseActivity() {
 
         showLoadingIndicator(false)
         val params = HashMap<String?, String?>()
-        //params["patientId"] = PreferenceHelper.read(Constance.PATIENT_ID)
-        params["patientId"] = "100"
+        params["patientId"] = PreferenceHelper.read(Constance.PATIENT_ID)
+        val authToken = "Bearer"+ PreferenceHelper.read(Constance.TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = ApiService.invoke().getNotifications(params)
+                val response = ApiService.invoke().getNotifications(authToken,params)
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {
                         hideLoadingIndicator()

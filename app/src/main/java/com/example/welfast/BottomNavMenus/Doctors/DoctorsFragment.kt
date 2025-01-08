@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.welfast.Base.BaseFragment
+import com.example.welfast.Base.Constance
+import com.example.welfast.Base.PreferenceHelper
 import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Doctors.DoctorsListModel.DoctorsListData
 import com.example.welfast.BottomNavMenus.Doctors.PatientListActivity.PatientListActivity
@@ -61,9 +63,10 @@ class DoctorsFragment : BaseFragment() {
 
     private fun callGetDoctorsApi() {
         showLoadingIndicator(false)
+        val authToken = "Bearer"+ PreferenceHelper.read(Constance.TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = ApiService.invoke().getDoctors()
+                val response = ApiService.invoke().getDoctors(authToken)
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {
                         hideLoadingIndicator()
