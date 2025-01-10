@@ -271,6 +271,7 @@ class EditProfile : BaseActivity() {
                 val name = RequestBody.create(MultipartBody.FORM, binding.etName.text.toString())
                 val age = RequestBody.create(MultipartBody.FORM, binding.etAge.text.toString())
                 val gender = RequestBody.create(MultipartBody.FORM, selectedGender)
+                val email = RequestBody.create(MultipartBody.FORM, binding.etEmail.text.toString())
                 val contactNumber = RequestBody.create(MultipartBody.FORM, binding.etPhone.text.toString())
                 val bloodGroup = RequestBody.create(MultipartBody.FORM, binding.etBlood.text.toString())
                 val address = RequestBody.create(MultipartBody.FORM, binding.etAddress.text.toString())
@@ -279,9 +280,10 @@ class EditProfile : BaseActivity() {
                 map["Name"] = name
                 map["Age"] = age
                 map["Gender"] = gender
+                map["EmailId"] = email
                 map["ContactNo"] = contactNumber
                 map["BloodGroup"] = bloodGroup
-                map["address"] = address
+                map["City"] = address
 
                 val authToken = "Bearer"+PreferenceHelper.read(Constance.TOKEN)
 

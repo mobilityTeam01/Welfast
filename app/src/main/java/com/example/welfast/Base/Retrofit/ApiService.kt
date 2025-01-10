@@ -1,6 +1,8 @@
 package com.example.welfast.Base.Retrofit
 
 import com.example.welfast.BottomNavMenus.Booking.BookAppointmentActivity.Model.AppointmentModel
+import com.example.welfast.BottomNavMenus.Booking.BookAppointmentActivity.Model.GetDoctorModel
+import com.example.welfast.BottomNavMenus.Booking.BookAppointmentActivity.Model.SpecializationModel
 import com.example.welfast.BottomNavMenus.Booking.Model.PatientListModel
 import com.example.welfast.BottomNavMenus.Doctors.DoctorsListModel.DoctorsListModel
 import com.example.welfast.BottomNavMenus.HealthPackage.Models.HealthPackageModel
@@ -81,6 +83,15 @@ interface ApiService {
     @POST(Urls.VERIFY_OTP)
     suspend fun verifyOtp(@FieldMap params: HashMap<String?, String?>)
             : OtpModel
+
+    @GET(Urls.GET_SPECIALIZATION)
+    suspend fun getSpecialization(@Header("Authorization") authToken: String)
+            : SpecializationModel
+
+    @FormUrlEncoded
+    @POST(Urls.GET_DOCTOR)
+    suspend fun getDoctor(@Header("Authorization") authToken: String,@FieldMap params: HashMap<String?, String?>)
+            : GetDoctorModel
 
     companion object {
         private val interceptor = HttpLoggingInterceptor()

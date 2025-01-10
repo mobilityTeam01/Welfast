@@ -33,7 +33,10 @@ class SplashScreen : BaseActivity() {
 
             PreferenceHelper.write(Constance.PATIENT_ID,"A1035")
             PreferenceHelper.write(Constance.CONTACT_NUMBER,"9605736882")
-            PreferenceHelper.write(Constance.TOKEN,"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImp0aSI6Ijg1MjEyNGQ2LTExMTQtNGVkNC05MTU3LWUyZGU0MjJhZDM5OCIsImV4cCI6MTczNjMxMDM3MiwiaXNzIjoiV2VsZmFzdEFwaSIsImF1ZCI6IldlbGZhc3RBcGkifQ.fRo2uifXwRZnBfgEMRK_V-xX9jOn5HAGGcMqHRLYlTE")
+            PreferenceHelper.write(Constance.NAME,"Rahul")
+            PreferenceHelper.write(Constance.EMAIL,"rahul@gmail.com")
+            PreferenceHelper.write(Constance.USER_PICTURE,"Uploads/ProfilePictures/d5653099-0b9a-40a2-ac76-1b1f6c048ef4.jfif")
+            PreferenceHelper.write(Constance.TOKEN," eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImp0aSI6IjJiN2U4MDQxLWYwMDgtNDI1OC04NTBiLTkyNWNkNWYxNTI2NyIsImlzcyI6IldlbGZhc3RBcGkiLCJhdWQiOiJXZWxmYXN0QXBpIn0.jpzVMYbpqwvovZlWzN6nbl5XE42lzJkCY5HY_qG1Mz4")
 //            }
         }, 2000)
     }

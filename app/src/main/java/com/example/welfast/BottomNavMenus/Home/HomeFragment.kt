@@ -16,7 +16,6 @@ import com.example.welfast.Base.Constance
 import com.example.welfast.Base.PreferenceHelper
 import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Doctors.PatientListActivity.PatientListActivity
-import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
 import com.example.welfast.BottomNavMenus.Home.InnerActivities.MedicalReport.MedicalReportActivity
 import com.example.welfast.BottomNavMenus.Home.Model.DoctorsHome
 import com.example.welfast.BottomNavMenus.Home.Model.HomeModel
@@ -68,7 +67,6 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun callHomeApi() {
-        Log.e("callHomeApi","CALL")
 
         showLoadingIndicator(false)
         val params = HashMap<String?, String?>()
@@ -100,9 +98,6 @@ class HomeFragment : BaseFragment() {
         //limit touch (to avoid scrolling)
         binding.rvDoctorsList.setOnTouchListener { _, _ -> true }
 
-        val originalDoctorsList = doctorsList // Keep the original list for searching
-        val limitedDoctorsList = originalDoctorsList.take(4) // Get the first four items
-
         doctorsListAdapter = DoctorsListHomeAdapter(doctorsList, object : DoctorsListHomeAdapter.ItemClickListener {
 
             override fun itemListClick(
@@ -110,7 +105,8 @@ class HomeFragment : BaseFragment() {
                 doctorsId: Int?,
                 profilePic: String?,
                 specialization: String?,
-                visitingTime: String?
+                visitingTime: String?,
+                size: Int
             ) {
                 val intent = Intent(requireContext(), PatientListActivity()::class.java)
                 intent.putExtra("doctorsName", doctorsName)
@@ -118,8 +114,9 @@ class HomeFragment : BaseFragment() {
                 intent.putExtra("profilePic", profilePic)
                 intent.putExtra("specialization", specialization)
                 intent.putExtra("visitingTime", visitingTime)
-                intent.putExtra("from", "Doctors")
+                intent.putExtra("from", "doctors")
                 startActivity(intent)
+
             }
         })
 
@@ -128,13 +125,11 @@ class HomeFragment : BaseFragment() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean { return false }
             override fun onQueryTextChange(newText: String?): Boolean {
+                Log.e("FILTER SIZE",doctorsList.size.toString())
                 doctorsListAdapter!!.filter.filter(newText)
                 return true
             }
         })
-
-
-
 
         binding.tvVisit.text=getString(R.string.visitingTimeHome)+response.patientReport?.visitDate
         binding.tvName.text=getString(R.string.doctorsNameHome)+response.patientReport?.doctorName
@@ -149,19 +144,9 @@ class HomeFragment : BaseFragment() {
         binding.tvSeeDetails.setOnClickListener{
             fragmentToActivityIntent(MedicalReportActivity())
         }
-
-
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             HomeFragment().apply {

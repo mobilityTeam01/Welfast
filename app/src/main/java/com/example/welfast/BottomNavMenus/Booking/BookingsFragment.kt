@@ -66,14 +66,18 @@ class BookingsFragment : BaseFragment() {
     private fun setClicks() {
         binding.ivBackButton.ivBack.setOnClickListener { fragmentTransaction(HomeFragment()) }
 
-        binding.newPatientButton.setOnClickListener { fragmentToActivityIntent(BookAppointmentActivity()) }
+        binding.newPatientButton.setOnClickListener {
+            val intent = Intent(requireContext(), BookAppointmentActivity()::class.java)
+            intent.putExtra("patient", "new")
+            startActivity(intent)
+        }
     }
 
     private fun getPatientListApi() {
 
         showLoadingIndicator(false)
         val params = HashMap<String?, String?>()
-        params["patientId"] = PreferenceHelper.read(Constance.CONTACT_NUMBER)
+        params["contactNo"] = PreferenceHelper.read(Constance.CONTACT_NUMBER)
 
         val authToken = "Bearer"+ PreferenceHelper.read(Constance.TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
@@ -108,14 +112,16 @@ class BookingsFragment : BaseFragment() {
                 patientId: String?,
                 age: String?,
                 relationship: String?,
-                opNumber: String?
+                opNumber: String?,
+                gender:String?
             ) {
                 val intent = Intent(requireContext(), BookAppointmentActivity()::class.java)
-                intent.putExtra("from", "BookingsFragment")
+                intent.putExtra("from", "patient")
                 intent.putExtra("patient", "old")
                 intent.putExtra("patientName", patientName)
                 intent.putExtra("patientId", patientId)
                 intent.putExtra("age", age)
+                intent.putExtra("gender", gender)
                 intent.putExtra("relationship", relationship)
                 intent.putExtra("opNumber", opNumber)
                 startActivity(intent)

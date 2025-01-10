@@ -54,14 +54,22 @@ class PatientListActivity : BaseActivity() {
     private fun setClicks() {
         binding.ivBackButton.ivBack.setOnClickListener { finish() }
 
-        binding.newPatientButton.setOnClickListener { intentActivity(BookAppointmentActivity()) }
+        binding.newPatientButton.setOnClickListener {
+            val intent = Intent(this@PatientListActivity, BookAppointmentActivity()::class.java)
+            intent.putExtra("patient", "new")
+            intent.putExtra("from", "doctor")
+            intent.putExtra("doctorsName", doctorsName)
+            intent.putExtra("doctorsId", doctorsId)
+            intent.putExtra("specialization", specialization)
+            startActivity(intent)
+        }
     }
 
     private fun getPatientListApi() {
 
         showLoadingIndicator(false)
         val params = HashMap<String?, String?>()
-        params["patientId"] = PreferenceHelper.read(Constance.CONTACT_NUMBER)
+        params["contactNo"] = PreferenceHelper.read(Constance.CONTACT_NUMBER)
         val authToken = "Bearer"+ PreferenceHelper.read(Constance.TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -95,14 +103,16 @@ class PatientListActivity : BaseActivity() {
                 patientId: String?,
                 age: String?,
                 relationship: String?,
-                opNumber: String?
+                opNumber: String?,
+                gender:String?
             ) {
                 val intent = Intent(this@PatientListActivity, BookAppointmentActivity()::class.java)
-                intent.putExtra("from", from)
+                intent.putExtra("from", "doctor")
                 intent.putExtra("patient", "old")
                 intent.putExtra("patientName", patientName)
                 intent.putExtra("patientId", patientId)
                 intent.putExtra("age", age)
+                intent.putExtra("gender", gender)
                 intent.putExtra("relationship", relationship)
                 intent.putExtra("opNumber", opNumber)
                 intent.putExtra("doctorsName", doctorsName)

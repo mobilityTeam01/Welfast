@@ -3,6 +3,7 @@ package com.example.welfast.BottomNavMenus.Home.InnerActivities.MedicalReport.Mo
 import com.google.gson.annotations.SerializedName
 
 data class Prescription(
+    @SerializedName("slNo"     ) var slNo     : Int?    = null,
     @SerializedName("brand"    ) var brand    : String? = null,
     @SerializedName("drug"     ) var drug     : String? = null,
     @SerializedName("dosage"   ) var dosage   : String? = null,

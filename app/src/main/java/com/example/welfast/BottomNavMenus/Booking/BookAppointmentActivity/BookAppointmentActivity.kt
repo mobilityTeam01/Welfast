@@ -17,13 +17,16 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.Toast
-import androidx.compose.ui.graphics.Color
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.welfast.Base.BaseActivity
 import com.example.welfast.Base.Constance
 import com.example.welfast.Base.PreferenceHelper
 import com.example.welfast.Base.Retrofit.ApiService
-import com.example.welfast.BottomNavMenus.Home.HomeFragment
+import com.example.welfast.BottomNavMenus.Booking.BookAppointmentActivity.Model.GetDoctorData
+import com.example.welfast.BottomNavMenus.Booking.BookAppointmentActivity.Model.SpecializationData
 import com.example.welfast.Dashboard.DashboardActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,25 +35,31 @@ import kotlinx.coroutines.withContext
 import java.util.Locale
 
 class BookAppointmentActivity : BaseActivity() {
-    lateinit var binding:ActivityBookAppoinmentActvityBinding
+    lateinit var binding: ActivityBookAppoinmentActvityBinding
 
-    lateinit var from:String
-    lateinit var patient:String
-    lateinit var patientName:String
-    lateinit var patientId:String
-    lateinit var age:String
-    lateinit var relationship:String
-    lateinit var opNumber:String
-    lateinit var gender:String
+    lateinit var from: String
+    lateinit var patient: String
+    lateinit var patientName: String
+    lateinit var patientId: String
+    lateinit var age: String
+    lateinit var relationship: String
+    lateinit var opNumber: String
+    lateinit var gender: String
 
-    lateinit var doctorsName:String
-    lateinit var doctorsId:String
-    lateinit var specialization:String
+    lateinit var doctorsName: String
+    lateinit var doctorsId: String
+    lateinit var specialization: String
+
+    var doctorsList = ArrayList<GetDoctorData>()
+    private var doctorsListAdapter: BookDoctorsAdapter? = null
+
+    var specializationList = ArrayList<SpecializationData>()
+    private var specializationListAdapter: SpecializationAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding=DataBindingUtil.setContentView(this,R.layout.activity_book_appoinment_actvity)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_book_appoinment_actvity)
 
         val intent = intent
 
@@ -67,73 +76,166 @@ class BookAppointmentActivity : BaseActivity() {
         specialization = intent.getStringExtra("specialization").toString()
 
 
-        setData(from,patient)
+        setData(from, patient)
 
         setClicks()
         initializeTextWatchers()
     }
 
     private fun initializeTextWatchers() {
-        addTextChangedListener(binding.etName   )
-        addTextChangedListener(binding.etAge    )
-        addTextChangedListenerTv(binding.tvSpecialization  )
+        addTextChangedListener(binding.etName)
+        addTextChangedListener(binding.etAge)
+        addTextChangedListenerTv(binding.tvSpecialization)
         addTextChangedListenerTv(binding.tvDoctors)
-        addTextChangedListenerTv(binding.tvDate  )
-        addTextChangedListenerTv(binding.tvTime  )
+        addTextChangedListenerTv(binding.tvDate)
+        addTextChangedListenerTv(binding.tvTime)
     }
 
     private fun setClicks() {
-        binding.buttonBookAppointment.button.text="Book Appointment"
+        binding.buttonBookAppointment.button.text = "Book Appointment"
         binding.ivBackButton.ivBack.setOnClickListener { finish() }
         binding.buttonBookAppointment.button.setOnClickListener {
-            if (validateData()){ callBookingApi() }
+            if (validateData()) {
+                callBookingApi()
+            }
         }
 
-        if (patient == "old"){
-            disableAndStyleView(binding.tvSpecialization)
-            disableAndStyleView(binding.tvDoctors)
-        }else{
-            binding.tvSpecialization.setOnClickListener { selectSpecialization() }
-            binding.tvDoctors.setOnClickListener { selectDoctor() }
+        binding.tvSpecialization.setOnClickListener { selectSpecialization() }
+
+        binding.tvDoctors.setOnClickListener {
+            if (binding.tvSpecialization.text.equals("")) {
+                Toast.makeText(
+                    this@BookAppointmentActivity,
+                    "Please select select Specialization",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                selectDoctor()
+            }
         }
+        callGetSpecializationApi()
+
 
         binding.tvDate.setOnClickListener { setCalendar() }
         binding.tvTime.setOnClickListener { setTime() }
     }
 
-    private fun callBookingApi(){
+    private fun callGetSpecializationApi() {
         showLoadingIndicator(false)
-
-        val params = HashMap<String?, String?>()
-        params["patientId"] = patientId
-        params["doctorId"] = doctorsId
-        params["AppointmentDateTime"] = convertToTimestamp(binding.tvDate.text.toString(),binding.tvTime.text.toString()).toString()
-
-        val authToken = "Bearer"+PreferenceHelper.read(Constance.TOKEN)
+        val authToken = "Bearer" + PreferenceHelper.read(Constance.TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = ApiService.invoke().bookAppointment(authToken,params)
+                val response = ApiService.invoke().getSpecialization(authToken)
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {
                         hideLoadingIndicator()
-                        Toast.makeText(this@BookAppointmentActivity, response.message, Toast.LENGTH_SHORT).show()
-                        confirmationPopup()
+                        specializationList.addAll(response.data)
                     } else {
                         hideLoadingIndicator()
-                        Toast.makeText(this@BookAppointmentActivity, response.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@BookAppointmentActivity,
+                            response.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     hideLoadingIndicator()
-                    Toast.makeText(this@BookAppointmentActivity, "An error occurred. Please try again later.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@BookAppointmentActivity,
+                        "An error occurred. Please try again later.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun callGetDoctorApi(specializationId: Int?) {
+        showLoadingIndicator(false)
+
+        val params = HashMap<String?, String?>()
+        params["specializationId"] = specializationId.toString()
+
+
+        val authToken = "Bearer" + PreferenceHelper.read(Constance.TOKEN)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiService.invoke().getDoctor(authToken, params)
+                withContext(Dispatchers.Main) {
+                    if (response.status == true) {
+                        hideLoadingIndicator()
+                        doctorsList.addAll(response.doctors)
+
+                    } else {
+                        hideLoadingIndicator()
+                        Toast.makeText(
+                            this@BookAppointmentActivity,
+                            response.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    hideLoadingIndicator()
+                    Toast.makeText(
+                        this@BookAppointmentActivity,
+                        "An error occurred. Please try again later.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun callBookingApi() {
+        showLoadingIndicator(false)
+
+        val params = HashMap<String?, String?>()
+        params["patientId"] = patientId
+        params["doctorId"] = doctorsId
+        params["AppointmentDate"] =
+            convertToTimestamp(binding.tvDate.text.toString(), binding.tvTime.text.toString())
+
+        val authToken = "Bearer" + PreferenceHelper.read(Constance.TOKEN)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiService.invoke().bookAppointment(authToken, params)
+                withContext(Dispatchers.Main) {
+                    if (response.status == true) {
+                        hideLoadingIndicator()
+                        Toast.makeText(
+                            this@BookAppointmentActivity,
+                            response.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        confirmationPopup()
+                    } else {
+                        hideLoadingIndicator()
+                        Toast.makeText(
+                            this@BookAppointmentActivity,
+                            response.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    hideLoadingIndicator()
+                    Toast.makeText(
+                        this@BookAppointmentActivity,
+                        "An error occurred. Please try again later.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
     }
 
     private fun confirmationPopup() {
-        Log.e("confirmationPopup","confirmationPopup")
+        Log.e("confirmationPopup", "confirmationPopup")
         val dialog = Dialog(this@BookAppointmentActivity)
         dialog.setContentView(R.layout.appoinment_success_dialog)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
@@ -151,11 +253,75 @@ class BookAppointmentActivity : BaseActivity() {
     }
 
     private fun selectDoctor() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.popup_doctors_list)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
+        val searchView = dialog.findViewById<SearchView>(R.id.searchViewDoctors)
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.rvDoctors)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        doctorsListAdapter =
+            BookDoctorsAdapter(doctorsList, object : BookDoctorsAdapter.ItemClickListener {
+
+                override fun itemListClick(
+                    doctorsName: String?,
+                    doctorsId: Int?
+                ) {
+                    binding.tvDoctors.text = doctorsName
+                    dialog.dismiss()
+                }
+            })
+
+        recyclerView.adapter = doctorsListAdapter
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+            override fun onQueryTextChange(newText: String?): Boolean {
+                doctorsListAdapter!!.filter.filter(newText)
+                return true
+            }
+        })
+
+        dialog.show()
     }
 
     private fun selectSpecialization() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.popup_specialization_list)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
+        val searchView = dialog.findViewById<SearchView>(R.id.searchViewSpecialization)
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.rvSpecialization)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        specializationListAdapter = SpecializationAdapter(
+            specializationList,
+            object : SpecializationAdapter.ItemClickListener {
+
+                override fun itemListClick(
+                    specializationName: String?,
+                    specializationId: Int?
+                ) {
+                    binding.tvSpecialization.text = specializationName
+                    dialog.dismiss()
+                    callGetDoctorApi(specializationId)
+                }
+            })
+
+        recyclerView.adapter = specializationListAdapter
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+            override fun onQueryTextChange(newText: String?): Boolean {
+                specializationListAdapter!!.filter.filter(newText)
+                return true
+            }
+        })
+
+        dialog.show()
     }
 
     private fun setTime() {
@@ -178,7 +344,12 @@ class BookAppointmentActivity : BaseActivity() {
         minutePicker.minValue = 0
         minutePicker.maxValue = 59
         minutePicker.wrapSelectorWheel = true
-        minutePicker.setFormatter { i -> String.format("%02d", i) } // Format minutes with leading zero
+        minutePicker.setFormatter { i ->
+            String.format(
+                "%02d",
+                i
+            )
+        } // Format minutes with leading zero
 
         // Set up AM/PM picker
         val ampmValues = arrayOf("AM", "PM")
@@ -187,7 +358,6 @@ class BookAppointmentActivity : BaseActivity() {
         ampmPicker.displayedValues = ampmValues
         ampmPicker.wrapSelectorWheel = true
 
-        // Handle button click
         confirmButton.setOnClickListener {
             val selectedHour = hourPicker.value
             val selectedMinute = String.format("%02d", minutePicker.value)
@@ -216,7 +386,8 @@ class BookAppointmentActivity : BaseActivity() {
         val currentMonth = Calendar.getInstance()
 
         fun updateCalendar() {
-            val monthYear = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(currentMonth.time)
+            val monthYear =
+                SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(currentMonth.time)
             tvMonthYear.text = monthYear
 
             val days = getDaysForMonth(currentMonth)
@@ -251,7 +422,10 @@ class BookAppointmentActivity : BaseActivity() {
 
                 // Allow selection only for today or future dates
                 if (!selectedDate.before(today)) {
-                    val formattedDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(selectedDate.time)
+                    val formattedDate = SimpleDateFormat(
+                        "dd MMMM yyyy",
+                        Locale.getDefault()
+                    ).format(selectedDate.time)
                     binding.tvDate.text = formattedDate
                     dialog.dismiss()
                 }
@@ -285,7 +459,7 @@ class BookAppointmentActivity : BaseActivity() {
     }
 
     private fun validateData(): Boolean {
-        if (patient=="new"){
+        if (patient == "new") {
             if (binding.etName.text.isEmpty()) {
                 binding.etName.error = getString(R.string.cannotBeEmpty)
                 scroll(binding.etName)
@@ -311,7 +485,7 @@ class BookAppointmentActivity : BaseActivity() {
                 }
             }
 
-            // Check if any RadioButton is selected
+
             val selectedRadioButtonId = binding.rgGender.checkedRadioButtonId
 
             if (selectedRadioButtonId == -1) {
@@ -325,12 +499,6 @@ class BookAppointmentActivity : BaseActivity() {
 //
 //            // Show the selected option
 //            Toast.makeText(this, "Selected: $selectedText", Toast.LENGTH_SHORT).show()
-            }
-
-            if (binding.etOpNum.text.isEmpty()) {
-                binding.etOpNum.error = getString(R.string.cannotBeEmpty)
-                scroll(binding.etOpNum)
-                return false
             }
         }
 
@@ -369,8 +537,10 @@ class BookAppointmentActivity : BaseActivity() {
     }
 
     private fun setData(from: String, patient: String) {
+        Log.e("FROM", from)
+        Log.e("patient", patient)
 
-        if (patient=="old"){
+        if (patient == "old" && from == "doctor") {
             binding.tvSpecialization.text = specialization
             binding.tvDoctors.text = doctorsName
 
@@ -379,23 +549,52 @@ class BookAppointmentActivity : BaseActivity() {
             disableAndStyleView(binding.etName)
             disableAndStyleView(binding.etAge)
             disableAndStyleView(binding.etOpNum)
-            disableAndStyleView(binding.etPhone)
-            disableAndStyleView(binding.etEmail)
 
             binding.etName.setText(patientName)
             binding.etAge.setText(age)
             binding.etOpNum.setText(opNumber)
             binding.rbMale.isClickable = false
             binding.rbFeMale.isClickable = false
+
+            if (gender == "male" || gender == "Male") {
+                binding.rgGender.check(R.id.rbMale)
+            } else {
+                binding.rgGender.check(R.id.rbFeMale)
+            }
+        } else if (patient == "new" && from == "doctor") {
+            binding.etOpNum.visibility=View.GONE
+
+            binding.tvSpecialization.text = specialization
+            binding.tvDoctors.text = doctorsName
+            disableAndStyleView(binding.tvSpecialization)
+            disableAndStyleView(binding.tvDoctors)
+
+        }else if (patient == "old" && from == "patient") {
+
+            disableAndStyleView(binding.etName)
+            disableAndStyleView(binding.etAge)
+            disableAndStyleView(binding.etOpNum)
+
+            binding.etName.setText(patientName)
+            binding.etAge.setText(age)
+            binding.etOpNum.setText(opNumber)
+            binding.rbMale.isClickable = false
+            binding.rbFeMale.isClickable = false
+
+            if (gender == "male" || gender == "Male") {
+                binding.rgGender.check(R.id.rbMale)
+            } else {
+                binding.rgGender.check(R.id.rbFeMale)
+            }
         }
 
         //common
-        if (!PreferenceHelper.read(Constance.CONTACT_NUMBER).equals("")){
+        if (!PreferenceHelper.read(Constance.CONTACT_NUMBER).equals("")) {
             binding.etPhone.setText(PreferenceHelper.read(Constance.CONTACT_NUMBER).toString())
             disableAndStyleView(binding.etPhone)
         }
 
-        if (!PreferenceHelper.read(Constance.EMAIL).equals("")){
+        if (!PreferenceHelper.read(Constance.EMAIL).equals("")) {
             binding.etEmail.setText(PreferenceHelper.read(Constance.EMAIL).toString())
             disableAndStyleView(binding.etEmail)
         }

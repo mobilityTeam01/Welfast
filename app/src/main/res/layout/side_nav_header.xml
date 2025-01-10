@@ -41,7 +41,7 @@
         
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvNameNav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="@string/sampleName"
@@ -53,7 +53,7 @@
             />
 
         <TextView
-            android:id="@+id/tvPhoneNumber"
+            android:id="@+id/tvPhoneNumberNav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

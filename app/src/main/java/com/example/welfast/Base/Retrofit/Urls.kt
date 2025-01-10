@@ -22,6 +22,8 @@ class Urls {
         const val BOOK_APPOINTMENT = "Appointment/BookAppointment"
         const val SEND_OTP = "Appointment/BookAppointment"
         const val VERIFY_OTP = "Appointment/BookAppointment"
+        const val GET_SPECIALIZATION = "Appointment/Specializations"
+        const val GET_DOCTOR = "Appointment/GetDoctorsBySpecialization"
 
     }
 

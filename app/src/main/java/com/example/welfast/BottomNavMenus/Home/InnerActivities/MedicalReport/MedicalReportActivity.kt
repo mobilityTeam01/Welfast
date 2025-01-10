@@ -56,7 +56,7 @@ class MedicalReportActivity : BaseActivity() {
                 withContext(Dispatchers.Main) {
                     if (response.status == true) {
                         hideLoadingIndicator()
-                        prescriptionList.addAll(response.data!!.prescription)
+                        response.patientReport?.let { prescriptionList.addAll(it.prescription) }
                         setData(response)
                     } else {
                         hideLoadingIndicator()
@@ -84,11 +84,11 @@ class MedicalReportActivity : BaseActivity() {
         binding.rvPrescription.adapter = prescriptionAdapter
 
 
-        binding.doctorName.text=    getString(R.string.docName)+response.data?.doctorName
-        binding.tvDate.text=        getString(R.string.visitDate)+response.data?.appointmentDate
-        binding.tvPatientName.text= getString(R.string.patientName)+response.data?.name
-        binding.tvAge.text=         getString(R.string.ageMR)+response.data?.age
-        binding.tvGender.text=      getString(R.string.genderMR)+response.data?.gender
+        binding.doctorName.text=    getString(R.string.docName)+response.patientReport?.doctorName
+        binding.tvDate.text=        getString(R.string.visitDate)+response.patientReport?.visitDate
+//        binding.tvPatientName.text= getString(R.string.patientName)+response.patientReport?.
+//        binding.tvAge.text=         getString(R.string.ageMR)+response.patientReport?
+//        binding.tvGender.text=      getString(R.string.genderMR)+response.patientReport?.gender
 
     }
 }

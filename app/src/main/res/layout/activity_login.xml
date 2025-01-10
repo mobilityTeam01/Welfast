@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
@@ -41,7 +41,7 @@
             android:layout_height="45dp"
             android:background="@drawable/tv_grey_bg"
             android:inputType="phone"
-            android:text="@string/enterPhone"
+            android:hint="@string/enterPhone"
             android:gravity="center"
             android:autofillHints="phone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -133,7 +133,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

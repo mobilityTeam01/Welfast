@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 data class MedicalReportModel(
     @SerializedName("status"  ) var status  : Boolean? = null,
     @SerializedName("message" ) var message : String?  = null,
-    @SerializedName("data"    ) var data    : MedicalReportData?    = MedicalReportData()
+    @SerializedName("patientReport"    ) var patientReport    : MedicalReportData?    = MedicalReportData()
 )

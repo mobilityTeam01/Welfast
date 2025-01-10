@@ -22,6 +22,10 @@
         <activity
             android:name=".Login.Login.LoginActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".BottomNavMenus.Home.InnerActivities.MedicalReport.MDT"
+            android:exported="false" />
         <activity
             android:name=".BottomNavMenus.Doctors.PatientListActivity.PatientListActivity"
             android:exported="false" />

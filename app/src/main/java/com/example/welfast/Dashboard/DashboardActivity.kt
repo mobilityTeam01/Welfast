@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Window
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -82,6 +83,8 @@ class DashboardActivity : BaseActivity() {
         val headerView = navView.getHeaderView(0)
 
         val imgProfilePicture: CircleImageView = headerView.findViewById(R.id.imgProfile)
+        val tvNameNav: TextView = headerView.findViewById(R.id.tvNameNav)
+        val tvPhoneNumberNav: TextView = headerView.findViewById(R.id.tvPhoneNumberNav)
         val llEdit: LinearLayout = headerView.findViewById(R.id.llEdit)
         val llNotification: LinearLayout = headerView.findViewById(R.id.llNotification)
         val llContact: LinearLayout = headerView.findViewById(R.id.llContact)
@@ -116,6 +119,9 @@ class DashboardActivity : BaseActivity() {
             .load(Urls.IMAGE_BASE+PreferenceHelper.read(Constance.USER_PICTURE))
             .placeholder(R.drawable.circular_profile_pic)
             .into(imgProfilePicture)
+
+        tvNameNav.text=PreferenceHelper.read(Constance.NAME)
+        tvPhoneNumberNav.text=PreferenceHelper.read(Constance.CONTACT_NUMBER)
 
         // Handle Bottom Navigation selection
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->

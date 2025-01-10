@@ -22,7 +22,14 @@ class DoctorsListHomeAdapter(private var doctorsList: ArrayList<DoctorsHome>?, p
     private var filteredList: ArrayList<DoctorsHome>? = doctorsList
 
     open interface ItemClickListener {
-        fun itemListClick(doctorsName: String?, doctorsId: Int?,profilePic: String?,specialization: String?,visitingTime:String?)
+        fun itemListClick(
+            doctorsName: String?,
+            doctorsId: Int?,
+            profilePic: String?,
+            specialization: String?,
+            visitingTime: String?,
+            size: Int
+        )
     }
     companion object {
         var mClickListener: ItemClickListener? = null
@@ -54,7 +61,7 @@ class DoctorsListHomeAdapter(private var doctorsList: ArrayList<DoctorsHome>?, p
 
         holder.tvAppointment.setOnClickListener(View.OnClickListener {
             mClickListener?.itemListClick(
-                doctor?.name,doctor?.doctorId,doctor?.profilePic,doctor?.specialization,doctor?.visitingTime
+                doctor?.name,doctor?.doctorId,doctor?.profilePic,doctor?.specialization,doctor?.visitingTime,filteredList!!.size
             )
         })
     }
@@ -62,37 +69,57 @@ class DoctorsListHomeAdapter(private var doctorsList: ArrayList<DoctorsHome>?, p
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charString = constraint?.toString() ?: ""
+                // Normalize the search query
+                val charString = constraint?.toString()
+                    ?.toLowerCase(Locale.ROOT)
+                    ?.replace(".", "")
+                    ?.replace(" ", "") // Remove spaces
+                    ?.trim() ?: ""
+
+                val results = FilterResults()
+
                 filteredList = if (charString.isEmpty()) {
-                    doctorsList
+                    doctorsList // Original list when search query is empty
                 } else {
                     val filtered = ArrayList<DoctorsHome>()
                     for (docName in doctorsList!!) {
-                        if (docName.name?.toLowerCase(Locale.ROOT)
-                                ?.contains(charString.toLowerCase(Locale.ROOT)) == true
-                        ) {
+                        // Normalize the doctor's name
+                        val normalizedDoctorName = docName.name
+                            ?.toLowerCase(Locale.ROOT)
+                            ?.replace(".", "")
+                            ?.replace(" ", "") // Remove spaces
+                            ?.trim()
+
+                        // Check if the normalized name contains the normalized search query
+                        if (normalizedDoctorName?.contains(charString) == true) {
                             filtered.add(docName)
                         }
                     }
                     filtered
                 }
-                val filterResults = FilterResults()
-                filterResults.values = filteredList
-                return filterResults
+
+                // Assign the filtered results to FilterResults
+                results.values = filteredList
+                results.count = filteredList!!.size
+                return results // Explicitly returning results here
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredList = if (results?.values == null) {
-                    Log.e("List","null")
-                    ArrayList()
+                filteredList = if (results?.values != null) {
+                    results.values as ArrayList<DoctorsHome>
                 } else {
-                    Log.e("List","Collegelist")
-                    results.values as ArrayList<DoctorsHome>?
+                    ArrayList() // Return an empty list if results are null
                 }
+
+                if (filteredList.isNullOrEmpty()) {
+                    Log.e("Filter", "No matching results")
+                }
+
                 notifyDataSetChanged()
             }
         }
     }
+
 
     override fun getItemCount(): Int {
         return filteredList!!.size

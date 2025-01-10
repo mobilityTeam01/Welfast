@@ -17,7 +17,7 @@ class PatientListAdapter(private var patientLists: ArrayList<DataPatientList>?, 
      private var patientList:ArrayList<DataPatientList>?=patientLists
 
      open interface ItemClickListener {
-         fun itemListClick(patientName: String?, patientId: String?,age: String?,relationship: String?,opNumber:String?)
+         fun itemListClick(patientName: String?, patientId: String?,age: String?,relationship: String?,opNumber:String?,gender:String?)
      }
      companion object {
          var mClickListener: ItemClickListener? = null
@@ -42,7 +42,7 @@ class PatientListAdapter(private var patientLists: ArrayList<DataPatientList>?, 
 
          holder.rlPatient.setOnClickListener(View.OnClickListener {
              mClickListener?.itemListClick(
-                 data?.name, data?.opid,data?.age,data?.relationship,data?.opid
+                 data?.name, data?.opid,data?.age,data?.relationship,data?.opid,data?.gender
              )
          })
      }

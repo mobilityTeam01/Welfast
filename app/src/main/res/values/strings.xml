@@ -5,6 +5,7 @@
     <string name="logo">logo</string>
     <string name="otp">otp</string>
     <string name="search">Search by Doctors</string>
+    <string name="searchSpecialization">Search by Specialization</string>
     <string name="assessment">Assessment</string>
     <string name="diagnosis">Diagnosis</string>
     <string name="prescription">Prescription</string>

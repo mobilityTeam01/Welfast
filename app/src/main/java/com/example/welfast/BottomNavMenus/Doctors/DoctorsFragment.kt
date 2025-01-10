@@ -18,6 +18,7 @@ import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Doctors.DoctorsListModel.DoctorsListData
 import com.example.welfast.BottomNavMenus.Doctors.PatientListActivity.PatientListActivity
 import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
+import com.example.welfast.BottomNavMenus.Home.HomeFragment
 import com.example.welfast.R
 import com.example.welfast.databinding.FragmentDoctorsBinding
 import kotlinx.coroutines.CoroutineScope
@@ -57,6 +58,8 @@ class DoctorsFragment : BaseFragment() {
         // Inflate the layout for this fragment
         binding=DataBindingUtil.inflate(inflater, R.layout.fragment_doctors, container, false)
         val view = binding.root
+
+        binding.ivBackButton.ivBack.setOnClickListener { fragmentTransaction(HomeFragment()) }
         callGetDoctorsApi()
         return view
     }
@@ -125,7 +128,7 @@ class DoctorsFragment : BaseFragment() {
                 intent.putExtra("profilePic", profilePic)
                 intent.putExtra("specialization", specialization)
                 intent.putExtra("visitingTime", visitingTime)
-                intent.putExtra("from", "Doctors")
+                intent.putExtra("from", "doctors")
                 startActivity(intent)
             }
         })

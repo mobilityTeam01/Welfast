@@ -7,6 +7,7 @@ data class DataPatientList(
     @SerializedName("name"         ) var name         : String? = null,
     @SerializedName("age"          ) var age          : String? = null,
     @SerializedName("opid"         ) var opid         : String? = null,
+    @SerializedName("gender"       ) var gender       : String? = null,
     @SerializedName("relationship" ) var relationship : String? = null
 
 )

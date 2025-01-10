@@ -58,7 +58,7 @@ class ViewProfileActivity : BaseActivity() {
             intent.putExtra("profilePic", profilePic)
             intent.putExtra("specialization", specialization)
             intent.putExtra("visitingTime", visitingTime)
-            intent.putExtra("from", "Doctors")
+            intent.putExtra("from", "doctors")
             startActivity(intent)
         }
     }

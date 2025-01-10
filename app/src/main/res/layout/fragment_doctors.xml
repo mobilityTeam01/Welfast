@@ -19,6 +19,7 @@
             >
 
             <include
+                android:id="@+id/ivBackButton"
                 layout="@layout/back_button"/>
 
             <TextView
