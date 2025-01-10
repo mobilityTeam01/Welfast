@@ -542,6 +542,7 @@ class BookAppointmentActivity : BaseActivity() {
         Log.e("patient", patient)
 
         if (patient == "old" && from == "doctor") {
+            //old patient and doctor selected
             binding.tvSpecialization.text = specialization
             binding.tvDoctors.text = doctorsName
 
@@ -563,6 +564,7 @@ class BookAppointmentActivity : BaseActivity() {
                 binding.rgGender.check(R.id.rbFeMale)
             }
         }else if (patient == "new" && from == "doctor") {
+            //new patient and doctor selected
             binding.etOpNum.visibility=View.GONE
 
             binding.tvSpecialization.text = specialization
@@ -571,7 +573,7 @@ class BookAppointmentActivity : BaseActivity() {
             disableAndStyleView(binding.tvDoctors)
 
         }else if (patient == "old" && from == "patient") {
-
+            //old patient and doctor not selected
             disableAndStyleView(binding.etName)
             disableAndStyleView(binding.etAge)
             disableAndStyleView(binding.etOpNum)
@@ -588,6 +590,7 @@ class BookAppointmentActivity : BaseActivity() {
                 binding.rgGender.check(R.id.rbFeMale)
             }
         }else if (patient == "new" && from == "patient") {
+            //new patient and doctor not selected
             binding.etOpNum.visibility=View.GONE
 
         }
