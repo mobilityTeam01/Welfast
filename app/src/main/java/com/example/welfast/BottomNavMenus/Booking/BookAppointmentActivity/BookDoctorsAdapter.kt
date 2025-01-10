@@ -21,7 +21,7 @@ class BookDoctorsAdapter (private var doctorsList: ArrayList<GetDoctorData>?, pr
     open interface ItemClickListener {
         fun itemListClick(
             doctorsName: String?,
-            doctorsId: Int?
+            doctorId: Int?
         )
     }
 

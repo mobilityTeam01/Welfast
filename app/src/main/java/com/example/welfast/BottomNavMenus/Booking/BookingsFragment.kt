@@ -53,7 +53,7 @@ class BookingsFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         binding=DataBindingUtil.inflate(inflater, R.layout.fragment_bookings, container, false)
         val view = binding.root
 
@@ -69,6 +69,7 @@ class BookingsFragment : BaseFragment() {
         binding.newPatientButton.setOnClickListener {
             val intent = Intent(requireContext(), BookAppointmentActivity()::class.java)
             intent.putExtra("patient", "new")
+            intent.putExtra("from", "patient")
             startActivity(intent)
         }
     }

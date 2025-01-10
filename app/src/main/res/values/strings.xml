@@ -115,5 +115,6 @@
     <string name="sure">Are you sure you want to log out?</string>
     <string name="cancel">Cancel</string>
     <string name="logOutYes">Yes, Logout</string>
+    <string name="noReporToshow">No report to show</string>
 
 </resources>

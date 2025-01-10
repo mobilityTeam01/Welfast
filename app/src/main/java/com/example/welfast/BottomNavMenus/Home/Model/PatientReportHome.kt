@@ -7,5 +7,5 @@ data class PatientReportHome(
     @SerializedName("visitDate"    ) var visitDate    : String?                 = null,
     @SerializedName("doctorNote"   ) var doctorNote   : String?                 = null,
 //    @SerializedName("labResults"   ) var labResults   : ArrayList<LabResults>   = arrayListOf(),
-//    @SerializedName("prescription" ) var prescription : ArrayList<Prescription> = arrayListOf()
+    @SerializedName("prescription" ) var prescription : ArrayList<PrescriptionHome> = arrayListOf()
 )

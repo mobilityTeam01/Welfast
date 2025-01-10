@@ -131,8 +131,18 @@ class HomeFragment : BaseFragment() {
             }
         })
 
-        binding.tvVisit.text=getString(R.string.visitingTimeHome)+response.patientReport?.visitDate
-        binding.tvName.text=getString(R.string.doctorsNameHome)+response.patientReport?.doctorName
+        Log.e("PS",response.patientReport?.prescription?.size.toString())
+        if (response.patientReport?.prescription?.size==0){
+
+            binding.tvNoData.visibility=View.VISIBLE
+            binding.tvSeeDetails.visibility=View.GONE
+
+            binding.tvVisit.visibility=View.GONE
+            binding.tvName.visibility=View.GONE
+        }else{
+            binding.tvVisit.text=getString(R.string.visitingTimeHome)+response.patientReport?.visitDate
+            binding.tvName.text=getString(R.string.doctorsNameHome)+response.patientReport?.doctorName
+        }
 
     }
 

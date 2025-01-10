@@ -114,6 +114,16 @@
                     style="@style/cardText"
                     />
 
+                <TextView
+                    android:id="@+id/tvNoData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/noReporToshow"
+                    style="@style/cardText"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

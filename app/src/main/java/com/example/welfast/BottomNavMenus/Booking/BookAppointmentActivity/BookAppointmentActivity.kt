@@ -267,9 +267,10 @@ class BookAppointmentActivity : BaseActivity() {
 
                 override fun itemListClick(
                     doctorsName: String?,
-                    doctorsId: Int?
+                    doctorId: Int?
                 ) {
                     binding.tvDoctors.text = doctorsName
+                    doctorsId=doctorId.toString()
                     dialog.dismiss()
                 }
             })
@@ -561,7 +562,7 @@ class BookAppointmentActivity : BaseActivity() {
             } else {
                 binding.rgGender.check(R.id.rbFeMale)
             }
-        } else if (patient == "new" && from == "doctor") {
+        }else if (patient == "new" && from == "doctor") {
             binding.etOpNum.visibility=View.GONE
 
             binding.tvSpecialization.text = specialization
@@ -586,6 +587,9 @@ class BookAppointmentActivity : BaseActivity() {
             } else {
                 binding.rgGender.check(R.id.rbFeMale)
             }
+        }else if (patient == "new" && from == "patient") {
+            binding.etOpNum.visibility=View.GONE
+
         }
 
         //common
