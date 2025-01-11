@@ -307,6 +307,7 @@ class BookAppointmentActivity : BaseActivity() {
                     specializationId: Int?
                 ) {
                     binding.tvSpecialization.text = specializationName
+                    binding.tvDoctors.text=""
                     dialog.dismiss()
                     callGetDoctorApi(specializationId)
                 }

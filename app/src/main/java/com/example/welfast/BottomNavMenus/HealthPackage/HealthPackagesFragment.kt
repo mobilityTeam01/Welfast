@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
 import com.example.welfast.BottomNavMenus.HealthPackage.Models.HealthPackageModel
 import com.example.welfast.BottomNavMenus.HealthPackage.Models.TestArray
+import com.example.welfast.Dashboard.DashboardActivity
 import com.example.welfast.R
 import com.example.welfast.databinding.FragmentHealthPackagesBinding
 import kotlinx.coroutines.CoroutineScope
@@ -57,6 +59,14 @@ class HealthPackagesFragment : BaseFragment() {
 
         val view = binding.root
         callHealthPackageApi()
+
+        binding.ivBackButton.ivBack.setOnClickListener { fragmentToActivityIntent(DashboardActivity()) }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                fragmentToActivityIntent(DashboardActivity())
+            }
+        })
+
         return view
     }
 

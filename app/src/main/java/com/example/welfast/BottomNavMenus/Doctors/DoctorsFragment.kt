@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,7 @@ import com.example.welfast.BottomNavMenus.Doctors.DoctorsListModel.DoctorsListDa
 import com.example.welfast.BottomNavMenus.Doctors.PatientListActivity.PatientListActivity
 import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
 import com.example.welfast.BottomNavMenus.Home.HomeFragment
+import com.example.welfast.Dashboard.DashboardActivity
 import com.example.welfast.R
 import com.example.welfast.databinding.FragmentDoctorsBinding
 import kotlinx.coroutines.CoroutineScope
@@ -59,8 +61,16 @@ class DoctorsFragment : BaseFragment() {
         binding=DataBindingUtil.inflate(inflater, R.layout.fragment_doctors, container, false)
         val view = binding.root
 
-        binding.ivBackButton.ivBack.setOnClickListener { fragmentTransaction(HomeFragment()) }
+        binding.ivBackButton.ivBack.setOnClickListener { fragmentToActivityIntent(DashboardActivity()) }
         callGetDoctorsApi()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                fragmentToActivityIntent(DashboardActivity())
+            }
+        })
+
+
         return view
     }
 

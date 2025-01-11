@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,8 +17,8 @@ import com.example.welfast.Base.Retrofit.ApiService
 import com.example.welfast.BottomNavMenus.Booking.BookAppointmentActivity.BookAppointmentActivity
 import com.example.welfast.BottomNavMenus.Booking.Model.DataPatientList
 import com.example.welfast.BottomNavMenus.Booking.Model.PatientListModel
-import com.example.welfast.BottomNavMenus.Doctors.ViewProfile.ViewProfileActivity
 import com.example.welfast.BottomNavMenus.Home.HomeFragment
+import com.example.welfast.Dashboard.DashboardActivity
 import com.example.welfast.R
 import com.example.welfast.databinding.FragmentBookingsBinding
 import kotlinx.coroutines.CoroutineScope
@@ -60,11 +61,17 @@ class BookingsFragment : BaseFragment() {
         getPatientListApi()
         setClicks()
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                fragmentToActivityIntent(DashboardActivity())
+            }
+        })
+
         return view
     }
 
     private fun setClicks() {
-        binding.ivBackButton.ivBack.setOnClickListener { fragmentTransaction(HomeFragment()) }
+        binding.ivBackButton.ivBack.setOnClickListener { fragmentToActivityIntent(DashboardActivity()) }
 
         binding.newPatientButton.setOnClickListener {
             val intent = Intent(requireContext(), BookAppointmentActivity()::class.java)
@@ -152,4 +159,5 @@ class BookingsFragment : BaseFragment() {
                 }
             }
     }
+
 }
