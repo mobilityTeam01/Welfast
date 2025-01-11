@@ -12,6 +12,7 @@ import com.example.welfast.R
 import com.example.welfast.databinding.ActivityBookAppoinmentActvityBinding
 import java.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.text.InputFilter
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -80,6 +81,20 @@ class BookAppointmentActivity : BaseActivity() {
 
         setClicks()
         initializeTextWatchers()
+
+        // Create an InputFilter to allow only letters
+        val filter = InputFilter { source, start, end, dest, dstart, dend ->
+            for (i in start until end) {
+                if (!Character.isLetter(source[i])) {
+                    return@InputFilter ""
+                }
+            }
+            null // Accept the input
+        }
+
+
+        // Set the filter to the EditText
+        binding.etName.filters = arrayOf(filter)
     }
 
     private fun initializeTextWatchers() {
