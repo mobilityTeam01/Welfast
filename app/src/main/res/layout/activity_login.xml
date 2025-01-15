@@ -108,7 +108,7 @@
                 />
 
             <TextView
-                android:id="@+id/loginButton"
+                android:id="@+id/verifyOtpButton"
                 android:layout_width="315dp"
                 android:layout_height="48dp"
                 android:background="@drawable/button_bg"

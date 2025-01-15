@@ -116,5 +116,7 @@
     <string name="cancel">Cancel</string>
     <string name="logOutYes">Yes, Logout</string>
     <string name="noReporToshow">No report to show</string>
+    <string name="samplePatientName">Ajitha Devadas</string>
+    <string name="chooseProfile">Choose Profiles</string>
 
 </resources>

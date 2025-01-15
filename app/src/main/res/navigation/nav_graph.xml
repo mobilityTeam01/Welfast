@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/HomeFragment"
-        android:name="com.example.welfast.BottomNavMenus.Home.HomeFragment"
+        android:name="com.srishti.welfast.BottomNavMenus.Home.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home"/>
     <fragment
         android:id="@+id/BookingsFragment"
-        android:name="com.example.welfast.BottomNavMenus.Booking.BookingsFragment"
+        android:name="com.srishti.welfast.BottomNavMenus.Booking.BookingsFragment"
         android:label="@string/bookings"
         tools:layout="@layout/fragment_bookings"/>
     <fragment
         android:id="@+id/DoctorsFragment"
-        android:name="com.example.welfast.BottomNavMenus.Doctors.DoctorsFragment"
+        android:name="com.srishti.welfast.BottomNavMenus.Doctors.DoctorsFragment"
         android:label="@string/Doctors"
         tools:layout="@layout/fragment_doctors"/>
     <fragment
         android:id="@+id/HealthPackagesFragment"
-        android:name="com.example.welfast.BottomNavMenus.HealthPackage.HealthPackagesFragment"
+        android:name="com.srishti.welfast.BottomNavMenus.HealthPackage.HealthPackagesFragment"
         android:label="@string/health_package"
         tools:layout="@layout/fragment_health_packages"/>
 </navigation>
