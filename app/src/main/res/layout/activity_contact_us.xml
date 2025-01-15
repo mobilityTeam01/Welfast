@@ -43,6 +43,7 @@
             />
 
         <ImageView
+            android:id="@+id/ivMap"
             android:layout_width="wrap_content"
             android:layout_height="167dp"
             android:contentDescription="@string/roadMap"
@@ -53,6 +54,7 @@
             />
 
         <LinearLayout
+            android:id="@+id/llAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
@@ -78,6 +80,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llMobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
@@ -94,6 +97,7 @@
                 android:layout_weight="0.2"
                 />
             <TextView
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/cell"
@@ -103,6 +107,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llLandline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
@@ -119,6 +124,7 @@
                 android:layout_weight="0.2"
                 />
             <TextView
+                android:id="@+id/tvLandline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/landline"
@@ -128,6 +134,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llLandline2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
@@ -153,6 +160,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
@@ -178,6 +186,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llWebsite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"

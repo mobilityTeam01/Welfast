@@ -608,15 +608,23 @@ class BookAppointmentActivity : BaseActivity() {
 
     private fun setData(from: String, patient: String) {
 
-        binding.rgGender.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId -> // checkedId is the RadioButton selected
-            if (checkedId.equals(binding.rbMale)) {
-                binding.rgGender.check(R.id.rbMale)
-                gender="male"
-            } else {
-                binding.rgGender.check(R.id.rbFeMale)
-                gender="feMale"
+        if (patient == "new") {
+            gender=""
+            binding.rgGender.setOnCheckedChangeListener { group, checkedId ->
+                Log.e("GENDER", checkedId.toString()) // Log the selected RadioButton ID
+
+                when (checkedId) {
+                    R.id.rbMale -> {
+                        gender = "male"
+                    }
+                    R.id.rbFeMale -> {
+                        gender = "feMale"
+                    }
+                }
             }
-        })
+
+        }
+
         if (patient == "old" && from == "doctor") {
             //old patient and doctor selected
             binding.tvSpecialization.text = specialization
