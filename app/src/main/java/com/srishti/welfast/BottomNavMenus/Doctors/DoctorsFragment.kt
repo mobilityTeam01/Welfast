@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
@@ -141,6 +142,15 @@ class DoctorsFragment : BaseFragment() {
             }
         })
         binding.rvDoctorsListMain.adapter = doctorsListAdapter
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean { return false }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                Log.e("FILTER SIZE",doctorsList.size.toString())
+                doctorsListAdapter!!.filter.filter(newText)
+                return true
+            }
+        })
     }
 
 

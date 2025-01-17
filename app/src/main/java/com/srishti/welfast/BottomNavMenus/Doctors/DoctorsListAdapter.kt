@@ -1,8 +1,11 @@
 package com.srishti.welfast.BottomNavMenus.Doctors
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -10,9 +13,13 @@ import com.bumptech.glide.Glide
 import com.srishti.welfast.Base.Retrofit.Urls
 import com.srishti.welfast.BottomNavMenus.Doctors.DoctorsListModel.DoctorsListData
 import com.srishti.welfast.R
+import java.util.Locale
 
 class DoctorsListAdapter(private var doctorsList: ArrayList<DoctorsListData>?, private val listener : ItemClickListener):
-    RecyclerView.Adapter<DoctorsListAdapter.DoctorViewHolder>() {
+    RecyclerView.Adapter<DoctorsListAdapter.DoctorViewHolder>() ,
+    Filterable {
+
+    private var filteredList: ArrayList<DoctorsListData>? = doctorsList
 
     open interface ItemClickListener {
         fun viewProfile(doctorsName: String?, doctorsId: Int?,degree: String?,profilePic: String?,specialization: String?,visitingTime:String?)
@@ -32,7 +39,8 @@ class DoctorsListAdapter(private var doctorsList: ArrayList<DoctorsListData>?, p
     }
 
     override fun onBindViewHolder(holder: DoctorViewHolder, position: Int) {
-        val doctor = doctorsList?.get(position)
+        val doctor = filteredList?.get(position)
+
         holder.tvName.text = doctor?.name.toString()
         holder.tvSpecialization.text = doctor?.specialization
         holder.tvDegree.text = doctor?.degree
@@ -61,7 +69,61 @@ class DoctorsListAdapter(private var doctorsList: ArrayList<DoctorsListData>?, p
     }
 
     override fun getItemCount(): Int {
-        return doctorsList?.size ?: 0
+        return filteredList!!.size
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                // Normalize the search query
+                val charString = constraint?.toString()
+                    ?.toLowerCase(Locale.ROOT)
+                    ?.replace(".", "")
+                    ?.replace(" ", "") // Remove spaces
+                    ?.trim() ?: ""
+
+                val results = FilterResults()
+
+                filteredList = if (charString.isEmpty()) {
+                    doctorsList // Original list when search query is empty
+                } else {
+                    val filtered = ArrayList<DoctorsListData>()
+                    for (docName in doctorsList!!) {
+                        // Normalize the doctor's name
+                        val normalizedDoctorName = docName.name
+                            ?.toLowerCase(Locale.ROOT)
+                            ?.replace(".", "")
+                            ?.replace(" ", "") // Remove spaces
+                            ?.trim()
+
+                        // Check if the normalized name contains the normalized search query
+                        if (normalizedDoctorName?.contains(charString) == true) {
+                            filtered.add(docName)
+                        }
+                    }
+                    filtered
+                }
+
+                // Assign the filtered results to FilterResults
+                results.values = filteredList
+                results.count = filteredList!!.size
+                return results // Explicitly returning results here
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredList = if (results?.values != null) {
+                    results.values as ArrayList<DoctorsListData>
+                } else {
+                    ArrayList() // Return an empty list if results are null
+                }
+
+                if (filteredList.isNullOrEmpty()) {
+                    Log.e("Filter", "No matching results")
+                }
+
+                notifyDataSetChanged()
+            }
+        }
     }
 
     class DoctorViewHolder(view: View) : RecyclerView.ViewHolder(view) {
